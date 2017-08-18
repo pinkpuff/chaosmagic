@@ -325,7 +325,6 @@ his or her chaos step, which takes place each turn after the upkeep step
     list.push("You get a poison counter.");
     list.push("Discard a card at random.");
     list.push("Sacrifice a nontoken permanent.");
-    list.push("Sacrifice a land.");
     list.push("Exile the top " + NumberWord(Dice(3, 2)) + " cards of your library.");
     list.push("A random opponent chooses a permanent you control. Tap that permanent. It doesn't untap during your next untap step.");
    }
@@ -348,7 +347,7 @@ his or her chaos step, which takes place each turn after the upkeep step
    list.push("Choose up to " + NumberWord(Dice(3, 2)) + " nonland nontoken permanents you own. For each permanent chosen this way, a player of your choice creates a token copy of it.");
    list.push("All players reveal their hands. Search all players' hands, graveyards, and exiled cards for a permanent card and put it onto the battlefield under any player's control.");
    list.push("Choose a player. That player loses " + Dice(3, 2) + " life.");
-   list.push("Look at all players' hands and graveyards and choose an instant or sorcery card from among them. Then, choose a player. That player casts " + NumberWord(temp, "a") + " " + (temp > 1 ? "copies" : "copy") + " of that spell without paying any of its costs.");
+   temp = Dice(3); list.push("Look at all players' hands and graveyards and choose an instant or sorcery card from among them. Then, choose a player. That player casts " + NumberWord(temp, "a") + " " + (temp > 1 ? "copies" : "copy") + " of that spell without paying any of its costs.");
   }
   document.getElementById("history").innerHTML = "<p>" + DrawFrom(list) + "</p>" + document.getElementById("history").innerHTML;
  }
@@ -356,10 +355,6 @@ his or her chaos step, which takes place each turn after the upkeep step
  function Resolution() {
   var list = [];
   list.push("The active player wins.");
-  list.push("The tallest player wins.");
-  list.push("The shortest player wins.");
-  list.push("The oldest player wins.");
-  list.push("The youngeset player wins.");
   list.push("The player with the most life wins.");
   list.push("The player with the least life wins.");
   list.push("The player who controls the most creatures wins.");
