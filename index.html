@@ -1,0 +1,1137 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252">
+<title>Chaos Magic</title>
+<style>
+ button {
+  font-size: 2em;
+ }
+ li {
+  margin: 1em 0;
+ }
+</style>
+</head>
+
+<body>
+ <h1>Global</h1>
+ <button onclick="NewGlobal()">New Global</button>
+ <div id="global"><p><i>(When all players have finished taking mulligans, if any, determine the first global.)</i></p></div>
+ <hr>
+ <h1>Chaos</h1>
+ <table width="100%">
+  <tbody><tr>
+   <td><button onclick="RollChaos()">Roll Chaos</button></td>
+   <td><button onclick="SlotMachine()">Slot Machine</button></td>
+   <td><button onclick="Retribution()">Retribution</button></td>
+   <td><button onclick="Spite()">Spite</button></td>
+   <td><button onclick="Resolution()">Resolution</button></td>
+  </tr>
+ </tbody></table> 
+ <div id="history"><p><i>(Each player rolls chaos at the beginning of 
+his or her chaos step, which takes place each turn after the upkeep step
+ and before the draw step.)</i></p></div>
+ <hr>
+ <h2>Rules</h2>
+ <h3>The Global</h3>
+ <ul>
+  <li>
+   As the first turn of the game begins, put a new global into effect. A global
+   is not a card, permanent, or token; it is merely an effect that is
+   constantly applied.
+  </li>
+  <li>
+   The first global can trigger on the first turn if it has, for example, an
+   upkeep trigger.
+  </li>
+  <li>
+   The global can't be countered or destroyed; it remains until an effect
+   instructs someone to change it.
+  </li>
+  <li>
+   There can only be one global in effect at any given time. If the global is
+   changed, the old global ceases to exist and the new one immediately takes
+   effect.
+  </li>
+  <li>
+   Triggered abilities of globals don't cause themselves or other abilities
+   of the same global to trigger. <i>(For example, if the global ends up being 
+   something like "Whenever a player draws a card, that player draws a card," 
+   it doesn't cause you to draw your whole deck the next time you draw; you 
+   just draw a second card.)</i>
+  </li>
+ </ul>
+ <h3>The Chaos Step</h3>
+ <ul>
+  <li>
+   Between the upkeep and draw steps is a new step: the chaos step. At the
+   beginning of each player's chaos step, that player rolls chaos. That player
+   puts an ability with the generated text directly onto the stack. It isn't
+   considered activated or triggered, and it is controlled by the player who
+   put it there <i>(usually the player whose turn it is)</i>.
+  </li>
+  <li>
+   If a chaos effect has modes, modes are chosen before the ability is put on
+   the stack. Targets are chosen and other choices are made in the usual
+   manner.
+  </li>
+  <li>
+   Some chaos effects involve the players taking a vote. This happens at the
+   same time modes would be chosen for a modal spell, and only the mode that
+   won the vote goes on the stack. Then targets are chosen for that mode.
+  </li>
+ </ul>
+ <h3>The Middle</h3>
+ <ul>
+  <li>
+   There is a new zone called the middle. Cards in the middle are not
+   considered exiled or in the command zone; it is its own separate zone.
+  </li>
+  <li>
+   As a state-based effect, if at any time there are no cards in the middle,
+   each player shuffles his or her library and puts the top card into the
+   middle.
+  </li>
+  <li>
+   Cards in the middle are face-up at all times.
+  </li>
+  <li>
+   Players can't play cards from the middle except when instructed to do so by
+   a chaos effect.
+  </li>
+  <li>
+   To play a card from the middle, if the card in question is a land card, put
+   it onto the battlefield under your control <i>(it doesn't count toward your
+   land per turn limit)</i>. Otherwise, you may pay its costs and cast it.
+  </li>
+  <li>
+   If a player leaves the game, all cards he or she owns from the middle cease
+   to exist along with all other cards that player owns.
+  </li>
+ </ul>
+ <h3>Slot Machine</h3>
+ <ul>
+  <li>
+   Each player starts the game with three chips.
+  </li>
+  <li>
+   Any time a player has priority, if that player has not played the slot machine
+   this turn, he or she may play the slot machine.
+  </li>
+  <li>
+   Each player can play the slot machine on each player's turn; it does not have
+   to be that player's own turn.
+  </li>
+  <li>
+   Playing the slot machine doesn't use the stack. Its effect resolves
+   immediately as it is rolled; players can't do anything in response. However,
+   if the effect, for example, puts a chaos ability <i>(or a copy of one)</i>
+   on the stack, that ability can be responded to as normal.
+  </li>
+  <li>
+   To play the slot machine, spend 1 chip, then roll three six-sided dice. On a
+   triple, you gain 6 chips and may choose any or all of the effects below up
+   to once each <i>(they happen in the order listed)</i>. On a pair, you gain 2
+   chips and choose one of the effects below. On any other result, you don't
+   gain any chips, but you choose one of the effects below from among those
+   corresponding to the numbers shown on the dice. <i>(For example, if you
+   rolled 3, 5, 6, you could choose to either copy a chaos effect, roll chaos, or
+   change the global.)</i>
+   <ol>
+    <li>Exile all tokens created by chaos effects.</li>
+    <li>You may play a card from the middle. If you don't, exile a card from the middle.</li>
+    <li>Copy a chaos effect.</li>
+    <li>Counter a chaos effect. Its controller rolls chaos.</li>
+    <li>Roll chaos.</li>
+    <li>Change the global.</li>
+   </ol>
+  </li>
+ </ul>
+ <h3>Retribution</h3>
+ <ul>
+  <li>
+   If a player skips his or her chaos step when he or she shouldn't have, if it
+   is still that player's turn, rewind the game state to that player's chaos
+   step. Then, before rolling chaos, if there was any new information received
+   as a result of skipping the chaos step <i>(for example, if the player had
+   seen the card he or she would draw on his or her draw step)</i>, that player
+   rolls retribution. This will cause some sort of generally negative effect to
+   happen to that player.
+  </li>
+  <li>
+   If one or more players did something in violation of the Global, either by
+   doing something it forbids or neglecting to do something it requires, if the
+   mistake is detected before the end of the turn it was made, rewind the game
+   state to the relevant point, and the player or players that made the mistake
+   roll retribution.
+  </li>
+  <li>
+   If a player changed the global without an effect instructing him or her to
+   do so, that player rolls retribution.
+  </li>
+  <li>
+   If a given player played the slot machine more than once on the same turn,
+   that player rolls retribution.
+  </li>
+  <li>
+   If a player made a mistake eligible for retribution but it was not detected
+   until the next turn or later, that player rolls retribution twice, but do
+   not rewind the game state.
+  </li>
+  <li>
+   Retribution effects can't be countered, can't be replaced by replacement
+   effects, and they don't cause abilities to trigger <i>(for example, if
+   retribution causes you to discard a card while someone has Megrim in play,
+   you won't take damage; likewise, you wouldn't be able to cast it for its
+   madness cost if it had one)</i>.
+  </li>
+ </ul>
+ <h3>Spite</h3>
+ <ul>
+  <li>
+   If a player would lose the game and has two or more opponents remaining who
+   have not lost the game, that player rolls spite. On rare occasions,
+   something might happen as a result of the spite effect that replaces the
+   player losing the game; otherwise, the effect happens, then the player loses
+   afterwards.
+  </li>
+  <li>
+   Each player can only roll spite at most once per game. If you were somehow
+   able to continue the game after rolling spite, you don't get to roll spite
+   again, even if you lose again or an effect tells you to roll spite.
+  </li>
+  <li>
+   Spite effects can't be countered, can't be replaced by replacement effects,
+   and they don't cause abilities to trigger.
+  </li>
+ </ul>
+ <h3>Resolution</h3>
+ <ul>
+  <li>
+   If for some reason the players agree to end the game early before any player
+   has won, you may roll resolution to determine an arbitrary winner.
+  </li>
+  <li>
+   If multiple players are tied for best using the criteria rolled, all other
+   players lose, then roll resolution again for the remaining players.
+  </li>
+ </ul> 
+
+
+<script>
+ 
+ var totalrolls = 0;
+ 
+ function DrawFrom(hat) {
+  return hat[Dice(hat.length) - 1];
+ }
+ 
+ function NewGlobal() {
+  var list = [];
+  var temp;
+  list.push("At the end of each combat step, if one or more creatures dealt combat damage to a player that turn, attacking player " + PlayerAction() + ".");
+  list.push("At the beginning of each player's draw step, that player draws an additional card.");
+  list.push("Whenever a player draws a card, that player " + PlayerAction() + ".");
+  list.push("Whenever a player discards a card, that player " + PlayerAction() + ".");
+  list.push("Whenever a player plays a land, that player " + PlayerAction() + ".");
+  list.push("Whenever a permanent is returned to a player's hand, that player " + PlayerAction() + ".");
+  temp = PermanentType(); list.push("Whenever a" + (StartsWithVowel(temp) ? "n " : " ") + temp + " becomes untapped, its controller puts the top card of his or her library into his or her graveyard.");
+  list.push("No more than one creature can attack each turn. No more than one creature can block each turn.");
+  list.push("All creatures have " + CreatureAbility() + ".");
+  list.push(Capitalize(RestrictedCreature(true)) + " have " + CreatureAbility() + ".");
+  list.push(Capitalize(RestrictedCreature(true)) + " get +1/+1.");
+  list.push(Capitalize(RestrictedCreature(true)) + " get -1/-1.");
+  list.push("All creatures lose " + CreatureAbility(true) + ".");
+  list.push("At the beginning of each player's upkeep, that player " + (Dice(2) == 1 ? "gains" : "loses") + " X life, where X is the number of cards in his or her hand minus " + Dice(3, 2) + ".");
+  list.push("At the beginning of each player's upkeep, that player " + (Dice(2) == 1 ? "gains" : "loses") + " X life, where X is " + Dice(3, 2) + " minus the number of cards in his or her hand.");
+  list.push(Oath());
+  list.push("Whenever a player taps a land for mana, that player adds one mana to his or her mana pool of any type that land produced.");
+  list.push("Each player may play an additional land on each of his or her turns.");
+  list.push("Whenever a player casts a spell with converted mana cost " + Amount("greater") + ", that player " + PlayerAction() + ".");
+  temp = RestrictedCreature(); list.push("Whenever a" + (StartsWithVowel(temp) ? "n " : " ") + temp + " enters the battlefield, its controller " + PlayerAction() + ".");
+  list.push("At the beginning of each player's upkeep, that player " + PlayerAction() + ".");
+  list.push("Players can't search libraries.");
+  list.push("Whenever a player would put one or more counters on anything, he or she puts that many plus one on it instead.");
+  temp = PermanentType(); list.push("Whenever a" + (StartsWithVowel(temp) ? "n " : " ") + temp + " enters the battlefield, destroy it.</p><p>0: Change the global. You skip your next turn. Any player may activate this ability.");
+  list.push("All creatures lose all abilities and have base power and toughness 1/1.");
+  list.push("Each land is a " + Capitalize(BasicLandType()) + " in addition to its other land types.");
+  list.push("Each creature is a " + CreatureType() + " in addition to its other creature types.");
+  temp = SpellType(); list.push("Whenever a player casts a" + (StartsWithVowel(temp) ? "n " : " ") + temp + ", counter that spell. That player creates X " + WeakPermanent(true) + ", where X is that spell's converted mana cost.");
+  list.push("Whenever a nontoken creature dies, its controller creates a " + WeakPermanent() + ".");
+  list.push("At the beginning of each player's upkeep, that player may " + PayCost() + ". If he or she does, he or she creates a " + WeakPermanent() + ".");
+  list.push("All instant and sorcery spells have " + SpellAbility() + ".");
+  list.push("All cards in all players' hands have " + HandAbility() + ".");
+  list.push("Players can play cards from their graveyards. If a card would be put into a graveyard from anywhere, exile that card instead.");
+  list.push("Players can play lands from their graveyards.");
+  list.push("Players can't get counters.</p><p>Counters can't be put on artifacts, creatures, enchantments, or lands.");
+  list.push("Players can't create tokens.");
+  list.push("If a player would draw a card, instead that player chooses land or nonland and reveals cards from the top of his or her library until he or she reveals a card of the chosen kind. That player puts that card into his or her hand and all other cards revealed this way on the bottom of his or her library in a random order.");
+  list.push("Whenever a creature enters the battlefield, its controller may have it deal damage equal to its power to target creature or player.");
+  temp = SpellType(); list.push("Whenever a player casts a" + (StartsWithVowel(temp) ? "n " : " ") + temp + ", its controller " + PlayerAction() + ".");
+  list.push(Capitalize(SpellType(true)) + " can't be cast.</p><p>" + Capitalize(PayCost()) + ": Change the global. Any player may activate this ability.");
+  list.push("At the beginning of each player's end step, if a permanent that player controlled left the battlefield this turn, he or she reveals the top card of his or her library. If it's a permanent card, that player may put it onto the battlefield. Otherwise, he or she may put it on the bottom of his or her library.");
+  list.push("At the beginning of each player's upkeep, that player loses life equal to the number of artifacts he or she controls.");
+  list.push("Each player can't cast more than one spell each turn.");
+  list.push("All " + SpellType(true) + " cost (" + Dice(3) + ") " + (Dice(2) == 1 ? "less" : "more") + " to cast.");
+  temp = NumberWord(Dice(3)); list.push("Each " + SpellType() + " that would cost less than " + temp + " mana to cast costs " + temp + " mana to cast.");
+  list.push("If a player would gain life, that player gains twice that much life instead.");
+  list.push("If a player would discard a card, that player puts that card on the bottom of his or her library instead.");
+  list.push("Whenever a player chooses one or more targets, each player reveals the top card of his or her library. The player who reveals the card with the highest converted mana cost may change the target or targets. If two or more cards are tied for highest cost, the target or targets remain unchanged.");
+  list.push("Any player may cast " + SpellType(true) + " with converted mana cost " + Dice(3) + " or less without paying their mana cost and as though they had flash.");
+  temp = CardType(); list.push("Each player reveals each card he or she draws.</p><p>Whenever a player draws a" + (StartsWithVowel(temp) ? "n " : " ") + temp + ", that player gains " + Dice(3) + " life. Otherwise, that player loses " + Dice(3) + " life.");
+  list.push("All basic lands have \"T: Add one mana of any color to your mana pool.\"");
+  list.push("At the beginning of each player's upkeep, that player chooses artifact, creature, land, or non-Aura enchantment. All nontoken permanents of that type phase out.");
+  list.push("As this becomes the global, each player chooses a card name.</p><p>Spells with the chosen names can't be cast.");
+  list.push("All lands are 1/1 creatures that are still lands.");
+  list.push("Whenever a player casts an instant spell, counter it unless that player pays (X), where X is its converted mana cost.");
+  list.push("Players can't gain life.</p><p>At the beginning of each player's upkeep, that player loses 1 life.");
+  list.push("At the beginning of each player's upkeep, that player puts a card at random from his or her hand into the middle. That player may play a card from the middle this turn. At the beginning of the next end step, if the player hasn't played a card from the middle, he or she exiles a card from the middle.");
+  list.push("At the beginning of each upkeep, untap all creatures and lands.");
+  list.push("Creatures can't attack a player unless that player cast a spell or put a nontoken permanent onto the battlefield during his or her last turn.");
+  list.push("Whenever a creature enters the battlefield, its controller gains life equal to its toughness.");
+  list.push("All creatures have vigilance.</p><p>At the beginning of each player's end step, tap all untapped creatures that player controls that didn't attack this turn. That player loses life equal to the number of creatures tapped this way.");
+  list.push("Whenever a permanent enters the battlefield tapped, untap it.");
+  list.push("All " + PermanentType(true) + " enter the battlefield tapped.");
+  list.push("At the beginning of each player's upkeep, that player may " + PayCost() + ". If that player does, he or she manifests the top card of his or her library.");
+  document.getElementById("global").innerHTML = "<p>" + DrawFrom(list) + "</p>";
+ }
+ 
+ function RollChaos() {
+  var list = [];
+  var chart = 0;
+  chart = Math.floor((Math.floor(totalrolls / 4) + Dice(6) - 1) / 5) + 1;
+  if (Dice(10) == 1) {
+   list.push(ChaosResult(chart) + "<br>" + ChaosResult(chart));
+   list.push(ChaosResult(chart - 1) + "<br>" + ChaosResult(chart - 1) + "<br>" + ChaosResult(chart - 1));
+   list.push("Choose one&mdash;<ul><li>" + ChaosResult(chart) + "</li><li>" + ChaosResult(chart) + "</li></ul>");
+   list.push("Choose one&mdash;<ul><li>" + ChaosResult(chart) + "</li><li>" + ChaosResult(chart) + "</li><li>" + ChaosResult(chart) + "</li></ul>");
+   list.push("Choose two&mdash;<ul><li>" + ChaosResult(chart - 1) + "</li><li>" + ChaosResult(chart - 1) + "</li><li>" + ChaosResult(chart - 1) + "</li><li>" + ChaosResult(chart - 1) + "</li></ul>");
+   list.push("Starting with you, each player votes A or B. If A getes more votes, " + Decapitalize(ChaosResult(chart)) + " If B gets more votes or the vote is tied, " + Decapitalize(ChaosResult(chart)));
+   list.push(ChaosResult(chart) + " Then, you may " + PayCost(false, "your") + ". If you do, " + Decapitalize(ChaosResult(chart)));
+   list.push("Any player may " + PayCost(false) + ". If no one does, " + Decapitalize(ChaosResult(chart + 1)));
+  } else {
+   list.push(ChaosResult(chart));
+  }
+  document.getElementById("history").innerHTML = "<p>" + DrawFrom(list) + "</p>" + document.getElementById("history").innerHTML;
+  totalrolls++;
+ }
+ 
+ function Retribution() {
+  var list = [];
+  if (Dice(6) == 1) {
+   list.push("You lose " + Dice(3) + " life.");
+  } else {
+   list.push("<i>The chaos gods have mercy on you.</i>");
+   list.push("You get a poison counter.");
+   list.push("Discard a card at random.");
+   list.push("Sacrifice a nontoken permanent.");
+   list.push("Sacrifice a land.");
+   list.push("Exile the top " + NumberWord(Dice(6, 2)) + " cards of your library.");
+   list.push("A random opponent chooses a permanent you control. Tap that permanent. It doesn't untap during your next untap step.");
+  }
+  document.getElementById("history").innerHTML = "<p>" + DrawFrom(list) + "</p>" + document.getElementById("history").innerHTML;
+ }
+ 
+ function Spite() {
+  var list = [];
+  if (Dice(6) == 1) {
+   list.push("<i>Greater powers ignore you.</i>");
+  } else {
+   list.push("You win instead of losing.");
+   list.push("Instead of losing, your life total becomes your starting life total, you lose all poison counters, then shuffle all cards in your graveyard and all exiled cards you own into your library and draw cards equal to your starting hand size. <i>(You can no longer spite for the rest of the game.)</i>");
+   list.push("Exile " + NumberWord(Dice(3, 2)) + " permanents of your choice.");
+   list.push("Choose a player. That player sacrifices half the permanents he or she controls, rounded up.");
+   list.push("Choose a player. That player loses half his or her life, rounded up.");
+   list.push("Choose a player. That player exiles his or her hand.");
+   list.push("Choose a player. That player gets nine poison counters.");
+   list.push("Choose a player. Search that player's library for up to " + NumberWord(Dice(6, 2)) + " cards and exile them.");
+   list.push("Choose half of the nonland nontoken permanents you own. For each permanent chosen this way, a player of your choice creates a token copy of it.");
+   list.push("All players reveal their hands. Search all players' hands, graveyards, and exiled cards for a permanent card and put it onto the battlefield under any player's control.");
+   list.push("Choose a player. That player loses " + Dice(3, 2) + " life.");
+  }
+  document.getElementById("history").innerHTML = "<p>" + DrawFrom(list) + "</p>" + document.getElementById("history").innerHTML;
+ }
+ 
+ function Resolution() {
+  var list = [];
+  list.push("The active player wins.");
+  list.push("The tallest player wins.");
+  list.push("The shortest player wins.");
+  list.push("The oldest player wins.");
+  list.push("The youngeset player wins.");
+  list.push("The player with the most life wins.");
+  list.push("The player with the least life wins.");
+  list.push("The player who controls the most creatures wins.");
+  list.push("The player who controls the fewest creatures wins.");
+  list.push("The player with the most cards in hand wins.");
+  list.push("The player with the fewest cards in hand wins.");
+  list.push("The player who controls the permanent with the highest converted mana cost wins.");
+  list.push("The player with the greatest devotion to " + BasicColor() + " wins.");
+  list.push("Each player reveals the top card of his or her library. The player who revealed the card with the highest converted mana cost wins.");
+  list.push("The player who took the first turn of the game wins.");
+  document.getElementById("history").innerHTML = "<p>" + DrawFrom(list) + "</p>" + document.getElementById("history").innerHTML;
+ }
+ 
+ function SlotMachine() {
+  var reel1 = Dice(6);
+  var reel2 = Dice(6);
+  var reel3 = Dice(6);
+  var result;
+  if (reel1 == reel2 == reel3) {
+   result = "<i>TRIPLE!!</i><br>Gain 6 chips. Choose any or all&mdash;<ul><li>Exile all tokens created by chaos effects.</li><li>You may play a card from the middle. If you don't, exile a card from the middle.</li><li>Copy a chaos effect.</li><li>Counter a chaos effect. Its controller rolls chaos.</li><li>Roll chaos.</li><li>Change the global.</li></ul>";
+  } else if (reel1 == reel2 || reel2 == reel3 || reel1 == reel3) {
+   result = "<i>Pair!</i><br>Gain 2 chips. Choose one&mdash;<ul><li>Exile all tokens created by chaos effects.</li><li>You may play a card from the middle. If you don't, exile a card from the middle.</li><li>Copy a chaos effect.</li><li>Counter a chaos effect. Its controller rolls chaos.</li><li>Roll chaos.</li><li>Change the global.</li></ul>";
+  } else {
+   result = "<i>No luck.</i><br>Choose one&mdash;<ul>";
+   if (reel1 == 1 || reel2 == 1 || reel3 == 1) result += "<li>Exile all tokens created by chaos effects.</li>";
+   if (reel1 == 2 || reel2 == 2 || reel3 == 2) result += "<li>You may play a card from the middle. If you don't, exile a card from the middle.</li>";
+   if (reel1 == 3 || reel2 == 3 || reel3 == 3) result += "<li>Copy a chaos effect.</li>";
+   if (reel1 == 4 || reel2 == 4 || reel3 == 4) result += "<li>Counter a chaos effect. Its controller rolls chaos.</li>";
+   if (reel1 == 5 || reel2 == 5 || reel3 == 5) result += "<li>Roll chaos.</li>";
+   if (reel1 == 6 || reel2 == 6 || reel3 == 6) result += "<li>Change the global.</li></ul>";
+   result += "</ul>"
+  }
+  document.getElementById("history").innerHTML = "<p>" + result + "</p>" + document.getElementById("history").innerHTML;
+ }
+ 
+ function ChaosResult(chart = 1) {
+  var list = [];
+  var temp;
+  var s;
+  roll = Dice(12)
+  if (Dice(6) == 1) {
+   list.push("Change the global.");
+   list.push("You may play a card from the middle this turn. At the beginning of the next end step, if you didn't play a card from the middle this turn, exile a card from the middle.");
+  } else {
+   switch (chart) {
+    case 0:
+    case 1:
+     list.push("Destroy target enchantment.");
+     list.push("Destroy target artifact.");
+     list.push("Destroy target " + RestrictedCreature() + ".");
+     list.push("Draw a card.");
+     list.push("Each player draws a card.");
+     list.push("Scry 2.");
+     list.push("Scry 1, then draw a card.");
+     list.push("Target player discards a card.");
+     list.push("Each player discards a card.");
+     list.push("You discard a card.");
+     list.push("Shuffle your hand into your library, then draw that many cards.");
+     list.push("Target player shuffles his or her graveyard into his or her library.");
+     list.push("Target player loses " + Dice(3) + " life.");
+     list.push("Each player loses 1 life.");
+     list.push("Target player loses 1 life and you gain 1 life.");
+     list.push("Target player gets a poison counter.");
+     list.push("Deal " + Dice(3) + " damage divided as you choose among any number of target creatures and/or players.");
+     list.push("Deal 1 damage to each creature.");
+     list.push("Return target creature card from your graveyard to your hand.");
+     list.push("Exile target card from a graveyard.");
+     list.push("Return target creature to its owner's hand.");
+     list.push("Put a +1/+1 counter on target creature.");
+     list.push("Target creature gains " + CreatureAbility() + " until end of turn.");
+     list.push("Put a -1/-1 counter on target creature.");
+     list.push("Target creature gets +2/+2 until end of turn.");
+     list.push("Sacrifice a creature.");
+     list.push("Each player sacrifices a permanent.");
+     list.push("You may play an additional land this turn.");
+     list.push("Exile the top four cards of your library. You may put a land card from among them onto the battlefield tapped.");
+     list.push("Each player reveals the top card of his or her library. Each player who revealed a land card this way may put that card onto the battlefield.");
+     list.push("Tap or untap target permanent.");
+     temp = WeakPermanent(); list.push("Create a" + (StartsWithVowel(temp) ? "n " : " ") + temp + ".");
+     list.push("Skip your combat phase this turn.");
+     temp = Dice(3); list.push((Dice(2) == 1 ? "Target" : "Each" ) + " player puts the top " + (temp > 1 ? NumberWord(temp) + " cards" : "card") + " of his or her library into his or her graveyard.");
+     temp = Dice(3); list.push("Target player draws two cards, then discards " + NumberWord(temp, "a") + " card" + (temp > 1 ? "s" : "") + ".");
+     temp = Dice(3); list.push("Each player gets " + NumberWord(temp, "an") + " energy counter" + (temp > 1 ? "s" : "") + ".");
+     list.push("Each player puts the fourth card from the top of his or her library into the middle.");
+     list.push("Each player puts the bottom card of his or her library into the middle.");
+     list.push("Manifest the top card of your library.");
+     break;
+    case 2:
+     list.push("Destroy all enchantments.");
+     list.push("Destroy all artifacts.");
+     list.push("Destroy target artifact or enchantment.");
+     list.push("Destroy target creature.");
+     list.push("Destroy target nonbasic land.");
+     list.push("Exile target enchantment.");
+     list.push("Exile target artifact.");
+     list.push("Destroy all " + RestrictedCreature(true) + ".");
+     list.push("Exile target " + RestrictedCreature() + ".");
+     list.push("Draw two cards.");
+     list.push("Each player draws two cards.");
+     list.push("Scry 3.");
+     list.push("Draw three cards, then put two cards from your hand on top of your library in any order.");
+     list.push("Look at the top three cards of your library. Put one of those cards into your hand, one on top of your library, and one on the bottom of your library.");
+     list.push("Look at the top four cards of your library. Put one of them into your hand and the rest on the bottom of your library in a random order.");
+     list.push("Target player discards two cards.");
+     list.push("Each player discards two cards.");
+     list.push("Target player discards a card at random.");
+     list.push("You discard two cards.");
+     list.push("Each player discards his or her hand, then draws seven cards.");
+     list.push("Skip your next draw step.");
+     list.push("Skip all your main phases this turn.");
+     list.push("Target player loses " + Dice(3, 2) + " life.");
+     list.push("Each player loses " + Dice(3) + " life.");
+     temp = Dice(3); list.push("Target player loses " + temp + " life and you gain " + temp + " life.");
+     list.push("Target player gets two poison counters.");
+     list.push("Deal " + Dice(6) + " damage divided as you choose among any number of target creatures and/or players.");
+     list.push("Deal " + Dice(3) + " damage to each creature.");
+     list.push("Return target card from your graveyard to your hand.");
+     list.push("Put any number of target creature cards from your graveyard on top of your library.");
+     list.push("Each player puts a creature card from his or her graveyard onto the battlefield.");
+     list.push("Exile all cards from target player's graveyard.");
+     list.push("Put target face-up exiled card into its owner's graveyard.");
+     list.push("Return target permanent to its owner's hand.");
+     list.push("Put target creature on top of its owner's library.");
+     list.push("Target creature gets +2/+2 and gains " + CreatureAbility() + " until end of turn.");
+     list.push("Target creature gets +3/+3 until end of turn.");
+     list.push("Target creature gains " + CreatureAbility() + " and " + CreatureAbility() + " until end of turn.");
+     list.push("Creatures you control get +1/+1 until end of turn.");
+     list.push("All creatures get -1/-1 until end of turn.");
+     list.push("Distribute " + NumberWord(Dice(3) + 1) + " +1/+1 counters among any number of target creatures.");
+     list.push("Distribute " + NumberWord(Dice(3) + 1) + " -1/-1 counters among any number of target creatures.");
+     list.push("Each player sacrifices a creature.");
+     list.push("Sacrifice a land.");
+     list.push("Search your library for up to two basic land cards, reveal those cards, and put one onto the battlefield tapped and the other into your hand. Then shuffle your library.");
+     list.push("You may sacrifice a land. If you do, search your library for up to two basic land cards and put them onto the battlefield.");
+     temp = Dice(3); list.push("Tap or untap up to " + NumberWord(temp) + " target permanent" + (temp == 1 ? "." : "s."));
+     list.push("After your first postcombat main phase this turn, there is an additional combat phase followed by an additional main phase.");
+     temp = StrongPermanent(); list.push("Create a" + (StartsWithVowel(temp) ? "n " : " ") + temp + ".");
+     temp = Dice(3); list.push("Create " + NumberWord(temp) + " " + WeakPermanent(temp > 1) + ".");
+     list.push("Each opponent creates a " + WeakPermanent() + ".");
+     list.push("All " + PermanentType(true) + " phase out.");
+     list.push("The owner of target permanent shuffles it into his or her library, then reveals the top card of his or her library. If it's a permanent card, he or she puts it onto the battlefield.");
+     list.push("Attach target Aura or Equipment to target permanent. <i>(If the new attachment isn't legal, it becomes unattached.)</i>");
+     list.push("You can't cast spells this turn.");
+     list.push("Your opponents can't cast spells this turn.");
+     list.push((Dice(2) == 1 ? "Target" : "Each" ) + " player puts the top " + NumberWord(Dice(3, 2)) + " cards of his or her library into his or her graveyard.");
+     list.push("Exchange control of two target " + PermanentType(true) + ".");
+     temp = Dice(6); list.push("Target player draws three cards, then discards " + NumberWord(temp, "a") + " card" + (temp > 1 ? "s" : "") + ".");
+     temp = Dice(3); list.push("Each player gets " + NumberWord(temp, "an") + " experience counter" + (temp > 1 ? "s" : "") + ".");
+     list.push("Each player puts a random card from his or her graveyard into the middle.");
+     list.push("Each player puts a face-up exiled card he or she owns into the middle.");
+     list.push("Each player puts a nontoken permanent he or she owns into the middle.");
+     list.push("Each player gets 1 chip.");
+     list.push("Manifest a card from your hand.");
+     list.push("Search your library for a card, then shuffle your library and put that card on top of it. You lose 2 life.");
+     temp = CardType(); list.push("Search your library for a" + (StartsWithVowel(temp) ? "n " : " ") + temp + " and reveal that card. Shuffle your library, then put that card on top of it.");
+     list.push("Target creature fights another target creature.");
+     break;
+    case 3:
+     list.push("Destroy all artifacts and enchantments.");
+     list.push("Destroy all creatures.");
+     list.push("Destroy target land.");
+     list.push("Destroy all enchantments you don't control.");
+     list.push("Destroy all artifacts you don't control.");
+     list.push("Destroy all nonbasic lands.");
+     list.push("Exile target artifact or enchantment.");
+     list.push("Exile target creature.");
+     list.push("Exile target nonbasic land.");
+     list.push("Destroy target nonland permanent.");
+     list.push("Draw three cards.");
+     list.push("Each player draws three cards.");
+     list.push("Reveal the top five cards of your library. An opponent separates those cards into two piles. Put one pile into your hand and the other into your graveyard.");
+     list.push("Target player discards three cards.");
+     list.push("Each player discards three cards.");
+     list.push("Target player discards two cards at random.");
+     list.push("You discard three cards.");
+     list.push("Each player shuffles his or her hand and graveyard into his or her library, then draws seven cards.");
+     list.push("Target player gets four poison counters.");
+     list.push("Return target creature card from your graveyard to the battlefield.");
+     list.push("Exile all cards from all graveyards.");
+     list.push("Put all exiled cards into their owners' graveyards.");
+     list.push("Return target face-up exiled card to its owner's hand.");
+     list.push("Return all creatures to their owners' hands.");
+     list.push("Return target permanent to its owner's hand. Then that player discards a card.");
+     list.push("Put target permanent on top of its owner's library.");
+     list.push("Target creature gets +5/+5 until end of turn.");
+     list.push("Creatures you control get +3/+3 until end of turn.");
+     list.push("Each player sacrifices a land.");
+     list.push("Each player sacrifices two creatures.");
+     list.push("Take an extra turn after this one.");
+     list.push("Skip your next turn.");
+     list.push("Target player skips his or her next turn.");
+     list.push("Target player loses " + Dice(6, 2) + " life.");
+     list.push("Each player loses " + Dice(3, 2) + " life.");
+     temp = Dice(3, 2); list.push("Target player loses " + temp + " life and you gain " + temp + " life.");
+     list.push("Deal " + Dice(6, 2) + " damage divided as you choose among any number of target creatures and/or players.");
+     list.push("Deal " + Dice(6) + " damage to each creature.");
+     list.push("Target creature gets +3/+3 and gains " + CreatureAbility() + " until end of turn.");
+     list.push("Target creature gets +2/+2 and gains " + CreatureAbility() + " and " + CreatureAbility() + " until end of turn.");
+     list.push("Creatures you control get +1/+1 and gain " + CreatureAbility() + " until end of turn.");
+     list.push("Creatures you control gain " + CreatureAbility() + " and " + CreatureAbility() + " until end of turn.");
+     temp = Dice(3); list.push("All creatures get -" + temp + "/-" + temp + " until end of turn.");
+     list.push("All creatures get -1/-1 and lose " + CreatureAbility() + " until end of turn.");
+     list.push("Distribute " + NumberWord(Dice(3, 2)) + " +1/+1 counters among any number of target creatures.");
+     list.push("Distribute " + NumberWord(Dice(3, 2)) + " -1/-1 counters among any number of target creatures.");
+     temp = MightyPermanent(); list.push("Create a" + (StartsWithVowel(temp) ? "n " : " ") + temp + ".");
+     temp = Dice(3); list.push("Create " + NumberWord(temp) + " " + StrongPermanent(temp > 1) + ".");
+     list.push("Create " + NumberWord(Dice(3, 2)) + " " + WeakPermanent(true) + ".");
+     list.push("Each opponent creates a " + StrongPermanent() + ".");
+     list.push("Destroy all " + RestrictedCreature(true) + " you don't control.");
+     list.push("Creatures can't block this turn.");
+     list.push("Each player may put a permanent card from his or her hand onto the battlefield.");
+     list.push((Dice(2) == 1 ? "Target" : "Each") + " player puts the top " + NumberWord(Dice(6, 2)) + " cards of his or her library into his or her graveyard.");
+     list.push("Untap target creature and gain control of it until end of turn. It gains haste until end of turn.");
+     list.push("Target player discards his or her hand, then draws " + NumberWord(Dice(3, 2)) + " cards.");
+     list.push("Each player loses all counters and gains 1 life for each counter lost this way.");
+     list.push("Each player puts a nontoken nonland permanent he or she owns into the middle.");
+     list.push("Each player puts a card from his or her hand into the middle.");
+     temp = Dice(3); list.push("Each player gets " + temp + " chip" + (temp > 1 ? "s." : "."));
+     list.push("Transform all creatures.");
+     list.push("Turn all face-down creatures face-up.");
+     list.push("Exile all creature cards from all graveyards in a face-down pile, shuffle that pile, then manifest those cards.");
+     list.push("Search your library for a card and put that card into your hand. Then shuffle your library.");
+     temp = PermanentType(); list.push("Search target opponent's library for a" + (StartsWithVowel(temp) ? "n " : " ") + temp + " card and put that card onto the battlefield under your control. Then that player shuffles his or her library.");
+     list.push("Remove all counters from all permanents and exile all tokens.");
+     break;
+    default:
+     list.push("Destroy all lands.");
+     list.push("Destroy all creatures you don't control.");
+     list.push("Destroy all nonbasic lands you don't control.");
+     list.push("Exile target land.");
+     list.push("Destroy all nonland permanents.");
+     list.push("Exile target nonland permanent.");
+     list.push("Exile all " + RestrictedCreature(true) + " you don't control.");
+     list.push("Draw four cards.");
+     list.push("Each player draws four cards.");
+     list.push("Target player discards his or her hand.");
+     list.push("Each player discards his or her hand.");
+     list.push("You discard your hand.");
+     list.push("Target player loses half his or her life, rounded up.");
+     list.push("Each player loses " + Dice(6, 2) + " life.");
+     temp = Dice(6, 2); list.push("Target player loses " + temp + " life and you gain " + temp + " life.");
+     list.push("Target player gets nine poison counters.");
+     list.push("Deal " + Dice(6, 3) + " damage divided as you choose among any number of target creatures and/or players.");
+     list.push("Deal " + Dice(6, 2) + " damage to each creature.");
+     list.push("Put target permanent card from a graveyard onto the battlefield under your control.");
+     list.push("Put all exiled cards into their owners' hands.");
+     list.push("Return all permanents to their owner's hands.");
+     list.push("Put two target permanents on top of their owners' libraries.");
+     list.push("Target creature gets +7/+7 until end of turn.");
+     list.push("Target creature gets +5/+5 and gains " + CreatureAbility() + " until end of turn.");
+     list.push("Target creature gets +3/+3 and gains " + CreatureAbility() + " and " + CreatureAbility() + " until end of turn.");
+     list.push("Creatures you control get +5/+5 until end of turn.");
+     list.push("Creatures you control get +3/+3 and gain " + CreatureAbility() + " until end of turn.");
+     list.push("Creatures you control get +1/+1 and gain " + CreatureAbility() + " and " + CreatureAbility() + " until end of turn.");
+     temp = Dice(3, 2); list.push("All creatures get -" + temp + "/-" + temp + " until end of turn.");
+     temp = Dice(3); list.push("All creatures get -" + temp + "/-" + temp + " and lose " + CreatureAbility() + " until end of turn."); 
+     list.push("All creatures get -1/-1 and lose " + CreatureAbility() + " and " + CreatureAbility() + " until end of turn.");
+     list.push("Distribute " + NumberWord(Dice(6, 2)) + " +1/+1 counters among any number of target creatures.");
+     list.push("Distribute " + NumberWord(Dice(6, 2)) + " -1/-1 counters among any number of target creatures.");
+     list.push("Each player chooses from among the permanents he or she controls an artifact, a creature, an enchantment, and a land, then sacrifices the rest.");
+     list.push("Each player chooses " + NumberWord(Dice(3, 2)) + " permanents he or she controls and sacrifices the rest.");
+     list.push("Each player sacrifices " + NumberWord(Dice(6, 2)) + " permanents.");
+     list.push("Put any number of land cards from your graveyard onto the battlefield.");
+     list.push("Take two extra turns after this one.");
+     list.push("End the turn.");
+     list.push("You control target player during that player's next turn.");
+     temp = Dice(3); list.push("Create " + NumberWord(temp) + " " + MightyPermanent(temp > 1) + ".");
+     list.push("Create " + NumberWord(Dice(3, 2)) + " " + StrongPermanent(true) + ".");
+     list.push("Create " + NumberWord(Dice(6, 3)) + " " + WeakPermanent(true) + ".");
+     list.push("Each opponent creates a " + StrongPermanent() + ".");
+     list.push("Create four 4/4 green Mutant Ninja Turtle tokens.");
+     list.push("Create a Stern Judge token, a Soulsworn Jury token, and a Cabal Executioner token.");
+     list.push("Starting with you, each player may put a permanent card from his or her hand onto the battlefield. Repeat this process until no one puts a card onto the battlefield.");
+     list.push("Each player shuffles all permanents he or she owns into his or her library, then reveals that many cards from the top of his or her library. Each player puts all artifact, creature, and land cards revealed this way onto the battlefield, then does the same for enchantment cards, then puts all cards revealed this way that weren't put onto the battlefield on the bottom of his or her library.");
+     list.push((Dice(2) == 1 ? "Target" : "Each" ) + " player puts the top half of his or her library, rounded down, into his or her graveyard.");
+     list.push("Each player chooses a number of lands he or she controls equal to the number of lands controlled by the player who controls the fewest, then sacrifices the rest. Players discard cards and sacrifice creatures the same way.");
+     list.push("Each player chooses a creature type. Each player returns all creature cards of a type chosen this way from his or her graveyard to the battlefield.");
+     list.push("Each player loses all emblems.");
+     list.push("Untap target creature and gain control of it. It gains haste until end of turn. At the beginning of the next end step, sacrifice it. If you do, you gain life equal to its toughness.");
+     list.push("Search your library and graveyard for five cards and exile the rest. Put the chosen cards on top of your library in any order.");
+     list.push("Exile all cards from the middle.");
+     list.push("Until end of turn, you may play cards from the middle.");
+     break;
+   }
+  }
+  return DrawFrom(list);
+ }  
+
+ function CreatureAbility(ignorenumber = false) {
+  var list = [];
+  list.push("flying");
+  list.push("first strike");
+  list.push("trample");
+  list.push("double strike");
+  list.push("reach");
+  list.push("shroud");
+  list.push("hexproof");
+  list.push("indestructible");
+  list.push("flanking");
+  list.push("bushido" + (ignorenumber ? "" : " " + Dice(3)));
+  list.push("menace");
+  list.push("provoke");
+  list.push("vigilance");
+  list.push(BasicLandType() + "walk");
+  list.push("protection from " + BasicColor());
+  list.push("deathtouch");
+  list.push("defender");
+  list.push("haste");
+  list.push("lifelink");
+  list.push("prowess");
+  list.push("exalted");
+  list.push("infect");
+  list.push("persist");
+  list.push("rampage" + (ignorenumber ? "" : " " + Dice(3)));
+  list.push("shadow");
+  list.push("horsemanship");
+  list.push("undying");
+  list.push("wither");
+  return DrawFrom(list);
+ }
+ 
+ function SpellAbility() {
+  var list = [];
+  list.push("buyback" + KeywordCost());
+  list.push("rebound");
+  list.push("split second");
+  list.push("cascade");
+  list.push("cipher");
+  list.push("conspire");
+  list.push("storm");
+  return DrawFrom(list);
+ }
+ 
+ function HandAbility() {
+  var list = [];
+  list.push("delve");
+  list.push("convoke");
+  list.push("cycling" + KeywordCost());
+  list.push("flash");
+  list.push("suspend " + (Dice(3) + 1) + KeywordCost());
+  list.push("reinforce " + (Dice(3)) + KeywordCost());
+  return DrawFrom(list);
+ }
+ 
+ function KeywordCost() {
+  var list = [];
+  list.push(" (" + (Dice(3) + 1) + ")");
+  list.push("&mdash;Pay " + (Dice(3) + 1) + " life");
+  list.push("&mdash;Discard a card");
+  return DrawFrom(list);
+ }
+ 
+ function BasicColor() {
+  var list = [];
+  list.push("white");
+  list.push("blue");
+  list.push("black");
+  list.push("red");
+  list.push("green");
+  return DrawFrom(list);
+ }
+ 
+ function BasicLandType() {
+  var list = [];
+  list.push("plains");
+  list.push("island");
+  list.push("swamp");
+  list.push("mountain");
+  list.push("forest");
+  return DrawFrom(list);
+ }
+ 
+ function CreatureType() {
+  var list = [];
+  list.push("Angel");
+  list.push("Beast");
+  list.push("Bird");
+  list.push("Cat");
+  list.push("Demon");
+  list.push("Dragon");
+  list.push("Elemental");
+  list.push("Elephant");
+  list.push("Elf");
+  list.push("Goblin");
+  list.push("Human");
+  list.push("Merfolk");
+  list.push("Sliver");
+  list.push("Snake");
+  list.push("Soldier");
+  list.push("Spirit");
+  list.push("Wizard");
+  list.push("Zombie");
+  return DrawFrom(list);
+ }
+ 
+ function Amount(moreword = "more") {
+  var list = [];
+  list.push(Dice(3, 2) + " or less");
+  list.push(Dice(3, 2) + " or " + moreword);
+  list.push("exactly " + Dice(3, 2));
+  return DrawFrom(list);  
+ }
+ 
+ function RestrictedCreature(plural = false) {
+  var list = [];
+  list.push(BasicColor() + " creature" + (plural ? "s" : ""));
+  list.push("creature" + (plural ? "s" : "") + " with converted mana cost " + Amount("greater"));
+  list.push("creature" + (plural ? "s" : "") + " with power " + Amount("greater"));
+  list.push(CreatureType() + " creature" + (plural ? "s" : ""));
+  list.push(CreatureType() + (plural ? " and " : " or ") + CreatureType() + " creature" + (plural ? "s" : ""));
+  list.push("non-" + CreatureType() + " creature" + (plural ? "s" : ""));
+  list.push("non" + BasicColor() + " creature" + (plural ? "s" : ""));
+  list.push("creature" + (plural ? "s" : "") + " with no abilities");
+  return DrawFrom(list);
+ }
+ 
+ function WeakPermanent(plural = false) {
+  var list = [];
+  var die_size = 1;
+  var roll = Math.floor((Math.random() * die_size) + 1);
+  if (Dice(3) == 1) {
+   list.push("2/2 " + BasicColor() + " " + CreatureType() + " creature token" + (plural ? "s" : ""));
+   list.push("1/1 " + BasicColor() + " " + CreatureType() + " creature token" + (plural ? "s" : "") + " with " + CreatureAbility());
+   result = DrawFrom(list);
+  } else {
+   list.push("Raging Goblin");
+   list.push("Ornithopter");
+   list.push("Savannah Lions");
+   list.push("Festering Goblin");
+   list.push("Sage Owl");
+   list.push("Storm Crow");
+   list.push("Llanowar Elves");
+   list.push("Spark Elemental");
+   list.push("Jackal Pup");
+   list.push("Mogg Fanatic");
+   list.push("Sakura-Tribe Elder");
+   list.push("Wall of Wood");
+   list.push("Merfolk Looter");
+   list.push("Hypnotic Specter");
+   list.push("White Knight");
+   list.push("Black Knight");
+   list.push("Goblin King");
+   list.push("Lord of Atlantis");
+   list.push("Fog Bank");
+   list.push("Prodigal Sorcerer <i>(\"Tim\")</i>");
+   list.push("Cloud of Faeries");
+   list.push("Eternal Witness");
+   list.push("Royal Assassin");
+   list.push("Meddling Mage");
+   list.push("Disciple of the Vault");
+   list.push("Brass Man");
+   list.push("Yotian Soldier");
+   list.push("Heap Doll");
+   list.push("Straw Golem");
+   list.push("Sleeper Agent");
+   list.push("True Believer");
+   list.push("Bottle Gnomes");
+   list.push("Lotus Petal");
+   list.push("Millstone");
+   list.push("Feldon's Cane");
+   list.push("Rod of Ruin");
+   list.push("Seal of Fire");
+   list.push("Clue");
+   list.push("Circle of Protection: " + BasicColor());
+   list.push("Tormod's Crypt");
+   list.push("Dark Sphere");
+   list.push("Fountain of Youth");
+   list.push("Welding Jar");
+   list.push("Avarice Totem");
+   list.push("Black Vise");
+   list.push("The Rack");
+   list.push("Expedition Map");
+   list.push("Chromatic Sphere");
+   list.push("Conjurer's Bauble");
+   list.push("Cursed Scroll");
+   list.push("Ghoulcaller's Bell");
+   list.push("Temple Bell");
+   list.push("Grindstone");
+   list.push("Liar's Pendulum");
+   list.push("Pithing Needle");
+   list.push("Prism Ring");
+   list.push("Profane Memento");
+   list.push("Squee's Toy");
+   list.push("Voltaic Key");
+   list.push("Mox Diamond");
+   result = DrawFrom(list) + " token" + (plural ? "s" : "");
+  }
+  return result;
+ }
+ 
+ function StrongPermanent(plural = false) {
+  var result;
+  var list = [];
+  if (Dice(3) == 1) {
+   list.push("4/4 " + BasicColor() + " " + CreatureType() + " creature token" + (plural ? "s" : ""));
+   list.push("3/3 " + BasicColor() + " " + CreatureType() + " creature token" + (plural ? "s" : "") + " with " + CreatureAbility());
+   result = DrawFrom(list);
+  } else {
+   list.push("Serra Angel");
+   list.push("Masticore");
+   list.push("Thicket Basilisk");
+   list.push("Fire Elemental");
+   list.push("Air Elemental");
+   list.push("Water Elemental");
+   list.push("Earth Elemental");
+   list.push("Ball Lightning");
+   list.push("Solemn Simulacrum");
+   list.push("Academy Rector");
+   list.push("Icatian Moneychanger");
+   list.push("Keldon Warlord");
+   list.push("Wall of Swords");
+   list.push("Atog");
+   list.push("Stuffy Doll");
+   list.push("Sengir Vampire");
+   list.push("Serendib Efreet");
+   list.push("Silent Arbiter");
+   list.push("Tarmogoyf");
+   list.push("Dark Confidant");
+   list.push("Goblin Welder");
+   list.push("Wild Mongrel");
+   list.push("Metalworker");
+   list.push("Arcbound Ravager");
+   list.push("Clone");
+   list.push("Black Lotus");
+   list.push("Sol Ring");
+   list.push("Scroll Rack");
+   list.push("Claws of Gix");
+   list.push("Zuran Orb");
+   list.push("Mana Crypt");
+   list.push("Library of Leng");
+   list.push("Altar of the Brood");
+   list.push("Amulet of Vigor");
+   list.push("Glaring Spotlight");
+   list.push("Geth's Grimoire");
+   list.push("Underworld Dreams");
+   list.push("Megrim");
+   list.push("Warped Devotion");
+   list.push("City of Brass");
+   list.push("Authority of the Consuls");
+   list.push("Sylvan Library");
+   list.push("Tainted Sigil");
+   list.push("Altar of Dementia");
+   list.push("Ashnod's Altar");
+   list.push("Phyrexian Altar");
+   list.push("Nuisance Engine");
+   list.push("Sculpting Steel");
+   list.push("Copy Enchantment");
+   list.push("Vesuva");
+   list.push("Terramorphic Expanse");
+   list.push("Maze of Ith");
+   list.push("Wasteland");
+   result = DrawFrom(list) + " token" + (plural ? "s" : "");
+  }
+  return result;
+ }
+ 
+ function MightyPermanent(plural = false) {
+  var result;
+  var list = [];
+  var die_size = 34;
+  var roll = Math.floor((Math.random() * die_size) + 1);
+  if (Dice(3) == 1) {
+   list.push("5/5 " + BasicColor() + " " + CreatureType() + " creature token" + (plural ? "s" : ""));
+   list.push("4/4 " + BasicColor() + " " + CreatureType() + " creature token" + (plural ? "s" : "") + " with " + CreatureAbility());
+   result = DrawFrom(list);
+  } else {
+   list.push("Sky Swallower");
+   list.push("Force of Nature");
+   list.push("Lord of the Pit");
+   list.push("Leveller");
+   list.push("Eater of Days");
+   list.push("Iwamori of the Open Fist");
+   list.push("Wormfang Manta");
+   list.push("Juzam Djinn");
+   list.push("Spirit of the Night");
+   list.push("Akroma, Angel of Wrath");
+   list.push("Angel of Despair");
+   list.push("Great Whale");
+   list.push("Dragon Mage");
+   list.push("Thorn Elemental");
+   list.push("Platinum Angel");
+   list.push("Darksteel Colossus");
+   list.push("Marit Lage");
+   list.push("Sibilant Spirit");
+   list.push("Baneslayer Angel");
+   list.push("Serra Avatar");
+   list.push("Psychatog");
+   list.push("Phyrexian Negator");
+   list.push("Phyrexian Dreadnought");
+   list.push("Progenitus");
+   list.push("Swans of Bryn Argoll");
+   list.push("Avatar of Woe");
+   list.push("Sliver Queen");
+   list.push("Library of Alexandria");
+   list.push("Planar Portal");
+   list.push("Memory Jar");
+   list.push("Defense of the Heart");
+   list.push("Darksteel Forge");
+   list.push("Rings of Brighthearth");
+   list.push("Mirari");
+   list.push("Gilded Lotus");
+   list.push("Bazaar of Baghdad");
+   list.push("Form of the Dragon");
+   list.push("Strip Mine");
+   result = DrawFrom(list) + " token" + (plural ? "s" : "");
+  }
+  return result;
+ }
+ 
+ function Oath() {
+  var list = [];
+  list.push("At the beginning of each player's upkeep, that player chooses target player who controls more creatures than he or she does and is his or her opponent. The first player may reveal cards from the top of his or her library until he or she reveals a creature card. If he or she does, that player puts that card onto the battlefield and all other cards revealed this way into his or her graveyard.");
+  list.push("At the beginning of each player's upkeep, that player chooses target player whose graveyard has fewer creature cards in it than his or her graveyard does and is his or her opponent. The first player may return a creature card from his or her graveyard to his or her hand.");
+  list.push("At the beginning of each player's upkeep, that player chooses target player who controls more lands than he or she does and is his or her opponent. The first player may search his or her library for a basic land card, put that card onto the battlefield, then shuffle his or her library.");
+  list.push("At the beginning of each player's upkeep, that player chooses target player who has more life than he or she does and is his or her opponent. The first player may have the second player lose 1 life.");
+  list.push("At the beginning of each player's upkeep, that player chooses target player who has more cards in hand than he or she does and is his or her opponent. The first player may discard his or her hand and draw three cards.");
+  return DrawFrom(list);
+ }
+ 
+ function PlayerAction() {
+  var list = [];
+  list.push(GoodAction());
+  list.push(BadAction());
+  list.push(BadAction() + " unless he or she " + PayCost(true));
+  return DrawFrom(list);
+ }
+ 
+ function GoodAction() {
+  var list = [];
+  list.push("gains " + Dice(3) + " life");
+  list.push("draws a card");
+  return DrawFrom(list);
+ }
+ 
+ function BadAction() {
+  var list = [];
+  var temp;
+  list.push("loses " + Dice(3) + " life");
+  list.push("discards a card");
+  temp = PermanentType(); list.push("sacrifices a" + (StartsWithVowel(temp) ? "n " : " ") + temp);
+  list.push("puts the top " + NumberWord(Dice(3) + 1) + " cards of his or her library into his or her graveyard");
+  return DrawFrom(list);
+ }
+ 
+ function PayCost(does = false, pronoun = "his or her") {
+  var list = [];
+  list.push("pay" + (does ? "s " : " ") + (Dice(3) + 1) + " life");
+  list.push("pay" + (does ? "s " : " ") + "(" + (Dice(3) + 1) + ")");
+  list.push("discard" + (does ? "s " : " ") + "a card");
+  list.push("exile" + (does ? "s " : " ") + "a card from " + pronoun + " hand");
+  list.push("exile" + (does ? "s " : " ") + "the top " + NumberWord(Dice(3, 2)) + " cards of " + pronoun + " library");
+  list.push("put" + (does ? "s " : " ") + "the top " + NumberWord(Dice(3, 2)) + " cards of " + pronoun + " library into " + pronoun + " graveyard");
+  temp = PermanentType(); list.push("sacrifice" + (does ? "s " : " ") + "a" + (StartsWithVowel(temp) ? "n " : " ") + temp);
+  return DrawFrom(list);
+ }
+
+ function PaySmallCost() { 
+  var list = [];
+  list.push("pay" + (does ? "s " : " ") + "1 life");
+  list.push("pay" + (does ? "s " : " ") + "(1)");
+  list.push("discard" + (does ? "s " : " ") + "a card");
+  list.push("exile" + (does ? "s " : " ") + "a card from " + pronoun + " hand");
+  list.push("exile" + (does ? "s " : " ") + "the top card of " + pronoun + " library");
+  list.push("put" + (does ? "s " : " ") + "the top card of " + pronoun + " library into " + pronoun + " graveyard.");
+  return DrawFrom(list);
+ }
+ 
+ function PermanentType(plural = false) {
+  var list = [];
+  list.push("artifact" + (plural ? "s" : ""));
+  list.push("creature" + (plural ? "s" : ""));
+  list.push("enchantment" + (plural ? "s" : ""));
+  list.push("land" + (plural ? "s" : ""));
+  list.push("permanent" + (plural ? "s" : ""));
+  list.push("nonland permanent" + (plural ? "s" : ""));
+  list.push("noncreature permanent" + (plural ? "s" : ""));
+  return DrawFrom(list);
+ }
+ 
+ function SpellType(plural = false) {
+  var list = [];
+  var result;
+  list.push("instant spell" + (plural ? "s" : ""));
+  list.push("sorcery spell" + (plural ? "s" : ""));
+  list.push("instant " + (plural ? "and" : "or") + " sorcery spell" + (plural ? "s" : ""));
+  list.push("artifact spell" + (plural ? "s" : ""));
+  list.push("enchantment spell" + (plural ? "s" : ""));
+  list.push("artifact " + (plural ? "and" : "or") + " enchantment spell" + (plural ? "s" : ""));
+  list.push("creature spell" + (plural ? "s" : ""));
+  list.push("planeswalker spell" + (plural ? "s" : ""));
+  list.push("creature " + (plural ? "and" : "or") + " planeswalker spell" + (plural ? "s" : ""));
+  list.push("noncreature spell" + (plural ? "s" : ""));
+  list.push("spell" + (plural ? "s" : ""));
+  result = DrawFrom(list);
+  if (Dice(6) == 1) result += " with converted mana cost " + Amount();
+  return result;
+ }
+ 
+ function CardType() {
+  var result;
+  if (Dice(6) == 1) {
+   result = BasicCardType() + " or " + BasicCardType() + " card";
+  } else {
+   result = BasicCardType() + " card";
+  }
+  if (Dice(6) == 1) result += " with converted mana cost " + Amount("greater");
+  return result;
+ }
+ 
+ function BasicCardType() {
+  var list = [];
+  if (Dice(12) == 1) {
+   list.push("planeswalker");
+  } else {
+   list.push("instant");
+   list.push("sorcery");
+   list.push("artifact");
+   list.push("creature");
+   list.push("enchantment");
+   list.push("land");
+  }
+  return DrawFrom(list);
+ }
+ 
+ function StartsWithVowel(s) {
+  return (s.charAt(0).toLowerCase() == "a" || 
+          s.charAt(0).toLowerCase() == "e" ||
+          s.charAt(0).toLowerCase() == "i" || 
+          s.charAt(0).toLowerCase() == "o" || 
+          s.charAt(0).toLowerCase() == "u");
+ }
+ 
+ function Capitalize(s) {
+  return s.charAt(0).toUpperCase() + s.slice(1);
+ }
+ 
+ function Decapitalize(s) {
+  return s.charAt(0).toLowerCase() + s.slice(1);
+ }
+ 
+ function Dice(sides, number = 1) {
+  var result = 0;
+  for (i = 0; i < number; i++) {
+   result += Math.floor((Math.random() * sides) + 1);
+  }
+  return result;
+ }
+ 
+ function NumberWord(number, oneword = "one") {
+  var result;
+  switch (number) {
+   case 1: result = oneword; break;
+   case 2: result = "two"; break;
+   case 3: result = "three"; break;
+   case 4: result = "four"; break;
+   case 5: result = "five"; break;
+   case 6: result = "six"; break;
+   case 7: result = "seven"; break;
+   case 8: result = "eight"; break;
+   case 9: result = "nine"; break;
+   case 10: result = "ten"; break;
+   case 11: result = "eleven"; break;
+   case 12: result = "twelve"; break;
+   case 13: result = "thirteen"; break;
+   case 14: result = "fourteen"; break;
+   case 15: result = "fifteen"; break;
+   case 16: result = "sixteen"; break;
+   case 17: result = "seventeen"; break;
+   case 18: result = "eighteen"; break;
+   case 19: result = "nineteen"; break;
+   case 20: result = "twenty"; break;
+  }
+  return result;
+ }
+ 
+</script>
+
+</body></html>
