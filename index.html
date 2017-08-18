@@ -317,15 +317,18 @@ his or her chaos step, which takes place each turn after the upkeep step
  function Retribution() {
   var list = [];
   if (Dice(6) == 1) {
-   list.push("You lose " + Dice(3) + " life.");
-  } else {
    list.push("<i>The chaos gods have mercy on you.</i>");
-   list.push("You get a poison counter.");
-   list.push("Discard a card at random.");
-   list.push("Sacrifice a nontoken permanent.");
-   list.push("Sacrifice a land.");
-   list.push("Exile the top " + NumberWord(Dice(6, 2)) + " cards of your library.");
-   list.push("A random opponent chooses a permanent you control. Tap that permanent. It doesn't untap during your next untap step.");
+  } else {
+   if(Dice(6) == 1) {
+    list.push("You lose " + Dice(3) + " life.");
+   } else {
+    list.push("You get a poison counter.");
+    list.push("Discard a card at random.");
+    list.push("Sacrifice a nontoken permanent.");
+    list.push("Sacrifice a land.");
+    list.push("Exile the top " + NumberWord(Dice(3, 2)) + " cards of your library.");
+    list.push("A random opponent chooses a permanent you control. Tap that permanent. It doesn't untap during your next untap step.");
+   }
   }
   document.getElementById("history").innerHTML = "<p>" + DrawFrom(list) + "</p>" + document.getElementById("history").innerHTML;
  }
@@ -335,17 +338,17 @@ his or her chaos step, which takes place each turn after the upkeep step
   if (Dice(6) == 1) {
    list.push("<i>Greater powers ignore you.</i>");
   } else {
-   list.push("You win instead of losing.");
-   list.push("Instead of losing, your life total becomes your starting life total, you lose all poison counters, then shuffle all cards in your graveyard and all exiled cards you own into your library and draw cards equal to your starting hand size. <i>(You can no longer spite for the rest of the game.)</i>");
+   list.push("You don't lose the game. You can't lose the game until the end of your next turn. At the end of your next turn, you lose the game. <i>(You don't get to spite again.)</i>");
    list.push("Exile " + NumberWord(Dice(3, 2)) + " permanents of your choice.");
    list.push("Choose a player. That player sacrifices half the permanents he or she controls, rounded up.");
    list.push("Choose a player. That player loses half his or her life, rounded up.");
    list.push("Choose a player. That player exiles his or her hand.");
    list.push("Choose a player. That player gets nine poison counters.");
-   list.push("Choose a player. Search that player's library for up to " + NumberWord(Dice(6, 2)) + " cards and exile them.");
-   list.push("Choose half of the nonland nontoken permanents you own. For each permanent chosen this way, a player of your choice creates a token copy of it.");
+   list.push("Choose a player. Look at the top seven cards of that player's library. You may exile any number of them. Then, put the rest on top of that library in any order.");
+   list.push("Choose up to " + NumberWord(Dice(3, 2)) + " nonland nontoken permanents you own. For each permanent chosen this way, a player of your choice creates a token copy of it.");
    list.push("All players reveal their hands. Search all players' hands, graveyards, and exiled cards for a permanent card and put it onto the battlefield under any player's control.");
    list.push("Choose a player. That player loses " + Dice(3, 2) + " life.");
+   list.push("Look at all players' hands and graveyards and choose an instant or sorcery card from among them. Then, choose a player. That player casts " + NumberWord(temp, "a") + " " + (temp > 1 ? "copies" : "copy") + " of that spell without paying any of its costs.");
   }
   document.getElementById("history").innerHTML = "<p>" + DrawFrom(list) + "</p>" + document.getElementById("history").innerHTML;
  }
