@@ -1,5 +1,6 @@
-<html><head>
-<meta http-equiv="content-type" content="text/html; charset=windows-1252">
+<html>
+
+<head>
 <title>Chaos Magic</title>
 <style>
  button {
@@ -291,6 +292,7 @@ his or her chaos step, which takes place each turn after the upkeep step
   list.push("Whenever a permanent enters the battlefield tapped, untap it.");
   list.push("All " + PermanentType(true) + " enter the battlefield tapped.");
   list.push("At the beginning of each player's upkeep, that player may " + PayCost() + ". If that player does, he or she manifests the top card of his or her library.");
+  list.push("Players can't draw more than one card per turn.");
   document.getElementById("global").innerHTML = "<p>" + DrawFrom(list) + "</p>";
  }
  
@@ -317,16 +319,16 @@ his or her chaos step, which takes place each turn after the upkeep step
  function Retribution() {
   var list = [];
   if (Dice(6) == 1) {
-   list.push("<i>The chaos gods have mercy on you.</i>");
+   list.push("<i>Greater powers have mercy on you.</i>");
   } else {
-   if(Dice(6) == 1) {
+   if(Dice(3) == 1) {
     list.push("You lose " + Dice(3) + " life.");
    } else {
     list.push("You get a poison counter.");
     list.push("Discard a card at random.");
     list.push("Sacrifice a nontoken permanent.");
     list.push("Exile the top " + NumberWord(Dice(3, 2)) + " cards of your library.");
-    list.push("A random opponent chooses a permanent you control. Tap that permanent. It doesn't untap during your next untap step.");
+    list.push("An opponent chooses a permanent you control. Tap that permanent. It doesn't untap during your next untap step.");
    }
   }
   document.getElementById("history").innerHTML = "<p>" + DrawFrom(list) + "</p>" + document.getElementById("history").innerHTML;
@@ -347,7 +349,10 @@ his or her chaos step, which takes place each turn after the upkeep step
    list.push("Choose up to " + NumberWord(Dice(3, 2)) + " nonland nontoken permanents you own. For each permanent chosen this way, a player of your choice creates a token copy of it.");
    list.push("All players reveal their hands. Search all players' hands, graveyards, and exiled cards for a permanent card and put it onto the battlefield under any player's control.");
    list.push("Choose a player. That player loses " + Dice(3, 2) + " life.");
-   temp = Dice(3); list.push("Look at all players' hands and graveyards and choose an instant or sorcery card from among them. Then, choose a player. That player casts " + NumberWord(temp, "a") + " " + (temp > 1 ? "copies" : "copy") + " of that spell without paying any of its costs.");
+   temp = Dice(3); list.push("Look at all players' hands and graveyards <i>(including your own)</i> and exile an instant or sorcery card from among them. Then, choose a player. That player casts " + NumberWord(temp, "a") + " " + (temp > 1 ? "copies" : "copy") + " of that spell without paying any of its costs.");
+   list.push("Choose a player. Each other player draws " + NumberWord(Dice(6, 2)) + " cards.");
+   list.push("Choose a player. That player exiles his or her graveyard and the top " + NumberWord(Dice(6, 2)) + " cards of his or her library.");
+   list.push("Choose a player. Each other player doubles his or her life total and may shuffle his or her graveyard into his or her library.");
   }
   document.getElementById("history").innerHTML = "<p>" + DrawFrom(list) + "</p>" + document.getElementById("history").innerHTML;
  }
@@ -645,34 +650,37 @@ his or her chaos step, which takes place each turn after the upkeep step
 
  function CreatureAbility(ignorenumber = false) {
   var list = [];
-  list.push("flying");
-  list.push("first strike");
-  list.push("trample");
-  list.push("double strike");
-  list.push("reach");
-  list.push("shroud");
-  list.push("hexproof");
-  list.push("indestructible");
-  list.push("flanking");
-  list.push("bushido" + (ignorenumber ? "" : " " + Dice(3)));
-  list.push("menace");
-  list.push("provoke");
-  list.push("vigilance");
-  list.push(BasicLandType() + "walk");
-  list.push("protection from " + BasicColor());
-  list.push("deathtouch");
-  list.push("defender");
-  list.push("haste");
-  list.push("lifelink");
-  list.push("prowess");
-  list.push("exalted");
-  list.push("infect");
-  list.push("persist");
-  list.push("rampage" + (ignorenumber ? "" : " " + Dice(3)));
-  list.push("shadow");
-  list.push("horsemanship");
-  list.push("undying");
-  list.push("wither");
+  if (Dice(3) > 1) {
+   list.push("flying");
+   list.push("first strike");
+   list.push("trample");
+   list.push("defender");
+   list.push("haste");
+   list.push("reach");
+   list.push("indestructible");
+   list.push("vigilance");
+   list.push(BasicLandType() + "walk");
+   list.push("protection from " + BasicColor());
+   list.push("lifelink");
+   list.push("deathtouch");
+  } else {
+   list.push("double strike");
+   list.push("shroud");
+   list.push("hexproof");
+   list.push("flanking");
+   list.push("bushido" + (ignorenumber ? "" : " " + Dice(3)));
+   list.push("menace");
+   list.push("provoke");
+   list.push("prowess");
+   list.push("exalted");
+   list.push("infect");
+   list.push("persist");
+   list.push("rampage" + (ignorenumber ? "" : " " + Dice(3)));
+   list.push("shadow");
+   list.push("horsemanship");
+   list.push("undying");
+   list.push("wither");
+  }
   return DrawFrom(list);
  }
  
@@ -1132,4 +1140,6 @@ his or her chaos step, which takes place each turn after the upkeep step
  
 </script>
 
-</body></html>
+</body>
+
+</html>
