@@ -281,6 +281,7 @@ his or her chaos step, which takes place each turn after the upkeep step
   list.push("All basic lands have \"T: Add one mana of any color to your mana pool.\"");
   list.push("At the beginning of each player's upkeep, that player chooses artifact, creature, land, or non-Aura enchantment. All nontoken permanents of that type phase out.");
   list.push("As this becomes the global, each player chooses a card name.</p><p>Spells with the chosen names can't be cast.");
+  list.push("As this becomes the global, each player chooses a card name.</p><p>Activated abilities of sources with the chosen name can't be activated unless they're mana abilities.");
   list.push("All lands are 1/1 creatures that are still lands.");
   list.push("Whenever a player casts an instant spell, counter it unless that player pays (X), where X is its converted mana cost.");
   list.push("Players can't gain life.</p><p>At the beginning of each player's upkeep, that player loses 1 life.");
@@ -301,14 +302,15 @@ his or her chaos step, which takes place each turn after the upkeep step
   var chart = 0;
   chart = Math.floor((Math.floor(totalrolls / 4) + Dice(6) - 1) / 5) + 1;
   if (Dice(10) == 1) {
-   list.push(ChaosResult(chart) + " Then, " + Decapitalize(ChaosResult(chart)));
-   list.push(ChaosResult(chart - 1) + " Then, " + Decapitalize(ChaosResult(chart - 1)) + " Then, " + Decapitalize(ChaosResult(chart - 1)));
+   list.push(ChaosResult(chart) + "<br>" + ChaosResult(chart));
+   list.push(ChaosResult(chart - 1) + "<br>" + ChaosResult(chart - 1) + "<br>" + ChaosResult(chart - 1));
    list.push("Choose one&mdash;<ul><li>" + ChaosResult(chart) + "</li><li>" + ChaosResult(chart) + "</li></ul>");
    list.push("Choose one&mdash;<ul><li>" + ChaosResult(chart) + "</li><li>" + ChaosResult(chart) + "</li><li>" + ChaosResult(chart) + "</li></ul>");
    list.push("Choose two&mdash;<ul><li>" + ChaosResult(chart - 1) + "</li><li>" + ChaosResult(chart - 1) + "</li><li>" + ChaosResult(chart - 1) + "</li><li>" + ChaosResult(chart - 1) + "</li></ul>");
    list.push("Starting with you, each player votes A or B. If A getes more votes, " + Decapitalize(ChaosResult(chart)) + " If B gets more votes or the vote is tied, " + Decapitalize(ChaosResult(chart)));
-   list.push(ChaosResult(chart) + " Then, you may " + PayCost(false, "your") + ". If you do, " + Decapitalize(ChaosResult(chart)));
+   list.push(ChaosResult(chart) + "<br>Then, you may " + PayCost(false, "your") + ". If you do, " + Decapitalize(ChaosResult(chart)));
    list.push("Any player may " + PayCost(false) + ". If no one does, " + Decapitalize(ChaosResult(chart + 1)));
+   list.push("Flip a coin until you lose a flip or choose to stop flipping. If you lose a flip, do nothing. If you win one or more flips, " + Decapitalize(ChaosResult(chart - 1)) + " If you win two or more flips, " + Decapitalize(ChaosResult(chart)) + " If you win three or more flips, " + Decapitalize(ChaosResult(chart + 1)));
   } else {
    list.push(ChaosResult(chart));
   }
@@ -519,6 +521,8 @@ his or her chaos step, which takes place each turn after the upkeep step
      list.push("Target creature fights another target creature.");
      temp = Dice(3); list.push("Look at the top " + NumberWord(Dice(6, 2)) + " cards of your library. Exile a nonland card from among them and put " + NumberWord(temp, "a") + " time " + (temp > 1 ? "counters" : "counter") + " on it. It gains suspend. Put the rest on the bottom of your library in a random order.");
      list.push("Each player searches his or her library for up to three cards and puts them into his or her graveyard, then shuffles his or her library.");
+     list.push("Target creature can't block this turn.");
+     list.push("The next instant or sorcery spell you cast this turn can't be countered by spells or abilities.");
      break;
     case 3:
      list.push("Destroy all artifacts and enchantments.");
@@ -587,6 +591,7 @@ his or her chaos step, which takes place each turn after the upkeep step
      list.push("Search your library for a card and put that card into your hand. Then shuffle your library.");
      temp = PermanentType(); list.push("Search target opponent's library for a" + (StartsWithVowel(temp) ? "n " : " ") + temp + " card and put that card onto the battlefield under your control. Then that player shuffles his or her library.");
      list.push("Remove all counters from all permanents and exile all tokens.");
+     list.push("Exile up to " + NumberWord(Dice(6)) + " cards from target player's graveyard. For each card exiled this way, that player loses 1 life and you gain 1 life.");
      break;
     default:
      list.push("Destroy all lands.");
@@ -851,6 +856,8 @@ his or her chaos step, which takes place each turn after the upkeep step
    list.push("Squee's Toy");
    list.push("Voltaic Key");
    list.push("Mox Diamond");
+   list.push("Jinxed Idol");
+   list.push("Jandor's Saddlebags");
    result = DrawFrom(list) + " token" + (plural ? "s" : "");
   }
   return result;
@@ -967,6 +974,7 @@ his or her chaos step, which takes place each turn after the upkeep step
    list.push("Rings of Brighthearth");
    list.push("Mirari");
    list.push("Gilded Lotus");
+   list.push("Dreamstone Hedron");
    list.push("Bazaar of Baghdad");
    list.push("Form of the Dragon");
    list.push("Strip Mine");
