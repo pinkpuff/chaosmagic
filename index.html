@@ -301,8 +301,8 @@ his or her chaos step, which takes place each turn after the upkeep step
   var chart = 0;
   chart = Math.floor((Math.floor(totalrolls / 4) + Dice(6) - 1) / 5) + 1;
   if (Dice(10) == 1) {
-   list.push(ChaosResult(chart) + "<br>" + ChaosResult(chart));
-   list.push(ChaosResult(chart - 1) + "<br>" + ChaosResult(chart - 1) + "<br>" + ChaosResult(chart - 1));
+   list.push(ChaosResult(chart) + " Then, " + Decapitalize(ChaosResult(chart)));
+   list.push(ChaosResult(chart - 1) + " Then, " + Decapitalize(ChaosResult(chart - 1)) + " Then, " + Decapitalize(ChaosResult(chart - 1)));
    list.push("Choose one&mdash;<ul><li>" + ChaosResult(chart) + "</li><li>" + ChaosResult(chart) + "</li></ul>");
    list.push("Choose one&mdash;<ul><li>" + ChaosResult(chart) + "</li><li>" + ChaosResult(chart) + "</li><li>" + ChaosResult(chart) + "</li></ul>");
    list.push("Choose two&mdash;<ul><li>" + ChaosResult(chart - 1) + "</li><li>" + ChaosResult(chart - 1) + "</li><li>" + ChaosResult(chart - 1) + "</li><li>" + ChaosResult(chart - 1) + "</li></ul>");
@@ -446,6 +446,7 @@ his or her chaos step, which takes place each turn after the upkeep step
      list.push("Each player puts the fourth card from the top of his or her library into the middle.");
      list.push("Each player puts the bottom card of his or her library into the middle.");
      list.push("Manifest the top card of your library.");
+     temp = Dice(4); list.push("Look at the top " + NumberWord(Dice(6, 2)) + " cards of your library. Exile a nonland card with converted mana cost " + (temp + 2) + " or less from among them and put " + NumberWord(temp, "a") + " time " + (temp > 1 ? "counters" : "counter") + " on it. It gains suspend. Put the rest on the bottom of your library in a random order.");
      break;
     case 2:
      list.push("Destroy all enchantments.");
@@ -495,7 +496,7 @@ his or her chaos step, which takes place each turn after the upkeep step
      list.push("Search your library for up to two basic land cards, reveal those cards, and put one onto the battlefield tapped and the other into your hand. Then shuffle your library.");
      list.push("You may sacrifice a land. If you do, search your library for up to two basic land cards and put them onto the battlefield.");
      temp = Dice(3); list.push("Tap or untap up to " + NumberWord(temp) + " target permanent" + (temp == 1 ? "." : "s."));
-     list.push("After your first postcombat main phase this turn, there is an additional combat phase followed by an additional main phase.");
+     list.push("After your first postcombat main phase this turn, there is an additional combat phase followed by an additional main phase. At the beginning of your next postcombat main phase, untap all creatures that attacked this turn.");
      temp = StrongPermanent(); list.push("Create a" + (StartsWithVowel(temp) ? "n " : " ") + temp + ".");
      temp = Dice(3); list.push("Create " + NumberWord(temp) + " " + WeakPermanent(temp > 1) + ".");
      list.push("Each opponent creates a " + WeakPermanent() + ".");
@@ -516,6 +517,8 @@ his or her chaos step, which takes place each turn after the upkeep step
      list.push("Search your library for a card, then shuffle your library and put that card on top of it. You lose 2 life.");
      temp = CardType(); list.push("Search your library for a" + (StartsWithVowel(temp) ? "n " : " ") + temp + " and reveal that card. Shuffle your library, then put that card on top of it.");
      list.push("Target creature fights another target creature.");
+     temp = Dice(3); list.push("Look at the top " + NumberWord(Dice(6, 2)) + " cards of your library. Exile a nonland card from among them and put " + NumberWord(temp, "a") + " time " + (temp > 1 ? "counters" : "counter") + " on it. It gains suspend. Put the rest on the bottom of your library in a random order.");
+     list.push("Each player searches his or her library for up to three cards and puts them into his or her graveyard, then shuffles his or her library.");
      break;
     case 3:
      list.push("Destroy all artifacts and enchantments.");
