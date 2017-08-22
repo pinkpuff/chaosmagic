@@ -245,7 +245,6 @@ his or her chaos step, which takes place each turn after the upkeep step
   list.push(Capitalize(RestrictedCreature(true)) + " get +1/+1.");
   list.push(Capitalize(RestrictedCreature(true)) + " get -1/-1.");
   list.push("All creatures lose " + CreatureAbility(true) + ".");
-  //list.push("At the beginning of each player's upkeep, that player " + (Dice(2) == 1 ? "gains" : "loses") + " X life, where X is the number of cards in his or her hand minus " + Dice(3, 2) + ".");
   list.push("At the beginning of each player's upkeep, that player " + (Dice(2) == 1 ? "gains" : "loses") + " X life, where X is " + (Dice(2) == 1 ? Dice(3, 2) + " minus the number of cards in his or her hand" : "the number of cards in his or her hand minus " + Dice(3, 2)) + ".");
   list.push(Oath());
   list.push("Whenever a player taps a land for mana, that player adds one mana to his or her mana pool of any type that land produced.");
@@ -260,8 +259,8 @@ his or her chaos step, which takes place each turn after the upkeep step
   list.push("Each land is a " + Capitalize(BasicLandType()) + " in addition to its other land types.");
   list.push("Each creature is a " + CreatureType() + " in addition to its other creature types.");
   temp = SpellType(); list.push("Whenever a player casts a" + (StartsWithVowel(temp) ? "n " : " ") + temp + ", counter that spell. That player creates X " + WeakPermanent(true) + ", where X is that spell's converted mana cost.");
-  list.push("Whenever a nontoken creature dies, its controller creates a " + WeakPermanent() + ".");
-  list.push("At the beginning of each player's upkeep, that player may " + PayCost() + ". If he or she does, he or she creates a " + WeakPermanent() + ".");
+  temp = WeakPermanent(); list.push("Whenever a nontoken creature dies, its controller creates a" + (StartsWithVowel(temp) ? "n " : " ") + temp + ".");
+  temp = WeakPermanent(); list.push("At the beginning of each player's upkeep, that player may " + PayCost() + ". If he or she does, he or she creates a" + (StartsWithVowel(temp) ? "n " : " ") + temp + ".");
   list.push("All instant and sorcery spells have " + SpellAbility() + ".");
   list.push("All cards in all players' hands have " + HandAbility() + ".");
   list.push("Players may play cards from their graveyards.</p><p>If a card would be put into a graveyard from anywhere, exile that card instead.");
@@ -315,7 +314,22 @@ his or her chaos step, which takes place each turn after the upkeep step
  function RollChaos() {
   var list = [];
   var chart = 0;
-  chart = Math.floor((Math.floor(totalrolls / 4) + Dice(6) - 1) / 5) + 1;
+  var chartlist = [
+   [1, 1, 1, 1, 1, 1, 1, 1, 2],
+   [1, 1, 1, 1, 1, 1, 1, 2, 3],
+   [1, 1, 1, 1, 1, 1, 2, 2, 3],
+   [1, 1, 1, 1, 1, 2, 2, 3, 3],
+   [1, 1, 1, 1, 2, 2, 3, 3, 4],
+   [1, 1, 1, 2, 2, 2, 3, 3, 4],
+   [1, 1, 2, 2, 2, 3, 3, 3, 4],
+   [1, 2, 2, 2, 3, 3, 3, 4, 4],
+   [1, 2, 2, 3, 3, 3, 4, 4, 4],
+   [1, 2, 3, 3, 3, 4, 4, 4, 4],
+   [1, 2, 3, 3, 4, 4, 4, 4, 4],
+   [1, 2, 3, 4, 4, 4, 4, 4, 4]
+  ];
+  //chart = Math.floor((Math.floor(totalrolls / 4) + Dice(6) - 1) / 5) + 1;
+  chart = chartlist[Math.min(Math.floor(totalrolls / 4), 11)][Dice(9) - 1];
   if (Dice(10) == 1) {
    list.push(ChaosResult(chart) + "<br>" + ChaosResult(chart));
    list.push(ChaosResult(chart - 1) + "<br>" + ChaosResult(chart - 1) + "<br>" + ChaosResult(chart - 1));
@@ -325,12 +339,12 @@ his or her chaos step, which takes place each turn after the upkeep step
    list.push("Starting with you, each player votes A or B. If A getes more votes, " + Decapitalize(ChaosResult(chart)) + " If B gets more votes or the vote is tied, " + Decapitalize(ChaosResult(chart)));
    list.push(ChaosResult(chart) + "<br>Then, you may " + PayCost(false, "your") + ". If you do, " + Decapitalize(ChaosResult(chart)));
    list.push("Any player may " + PayCost(false) + ". If no one does, " + Decapitalize(ChaosResult(chart + 2)));
-   list.push("You may " + PayCost(false) + ". If you do, " + Decapitalize(ChaosResult(chart + 1)) + ".");
+   list.push("You may " + PayCost(false) + ". If you do, " + Decapitalize(ChaosResult(chart + 1)));
    list.push("Flip a coin until you lose a flip or choose to stop flipping. If you lose a flip, do nothing. If you win one or more flips, " + Decapitalize(ChaosResult(chart - 1)) + " If you win two or more flips, " + Decapitalize(ChaosResult(chart)) + " If you win three or more flips, " + Decapitalize(ChaosResult(chart + 1)));
   } else {
    list.push(ChaosResult(chart));
   }
-  document.getElementById("history").innerHTML = "<p>" + DrawFrom(list) + "</p>" + document.getElementById("history").innerHTML;
+  document.getElementById("history").innerHTML = "<p>" + totalrolls + " (Chart " + chart + ") " + DrawFrom(list) + "</p>" + document.getElementById("history").innerHTML;
   totalrolls++;
  }
  
@@ -515,7 +529,7 @@ his or her chaos step, which takes place each turn after the upkeep step
      list.push("Search your library for up to two basic land cards, reveal those cards, and put one onto the battlefield tapped and the other into your hand. Then shuffle your library.");
      list.push("You may sacrifice a land. If you do, search your library for up to two basic land cards and put them onto the battlefield.");
      temp = Dice(3); list.push("Tap or untap up to " + NumberWord(temp) + " target permanent" + (temp == 1 ? "." : "s."));
-     list.push("After your first postcombat main phase this turn, there is an additional combat phase followed by an additional main phase. At the beginning of your next postcombat main phase, untap all creatures that attacked this turn.");
+     list.push("After your first postcombat main phase this turn, there is an additional combat phase followed by an additional main phase. At the beginning of that combat, untap all creatures that attacked this turn.");
      temp = StrongPermanent(); list.push("Create a" + (StartsWithVowel(temp) ? "n " : " ") + temp + ".");
      temp = Dice(3); list.push("Create " + NumberWord(temp) + " " + WeakPermanent(temp > 1) + ".");
      list.push("Each opponent creates a " + WeakPermanent() + ".");
@@ -1043,7 +1057,7 @@ his or her chaos step, which takes place each turn after the upkeep step
   temp = PermanentType(); list.push("sacrifices a" + (StartsWithVowel(temp) ? "n " : " ") + temp);
   list.push("puts the top " + NumberWord(Dice(3) + 1) + " cards of his or her library into his or her graveyard");
   temp = PermanentType(); list.push("returns " + (StartsWithVowel(temp) ? "an " : "a ") + temp + " he or she controls to his or her hand");
-  temp = Zone(); list.push("puts a card he or she owns from " + Zone() + " into the middle.");
+  temp = Zone(); list.push("puts a card he or she owns from " + Zone() + " into the middle");
   return DrawFrom(list);
  }
 
