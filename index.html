@@ -339,12 +339,12 @@ his or her chaos step, which takes place each turn after the upkeep step
    list.push("Starting with you, each player votes A or B. If A getes more votes, " + Decapitalize(ChaosResult(chart)) + " If B gets more votes or the vote is tied, " + Decapitalize(ChaosResult(chart)));
    list.push(ChaosResult(chart) + "<br>Then, you may " + PayCost(false, "your") + ". If you do, " + Decapitalize(ChaosResult(chart)));
    list.push("Any player may " + PayCost(false) + ". If no one does, " + Decapitalize(ChaosResult(chart + 2)));
-   list.push("You may " + PayCost(false) + ". If you do, " + Decapitalize(ChaosResult(chart + 1)));
+   list.push("You may " + PayCost(false, "your") + ". If you do, " + Decapitalize(ChaosResult(chart + 1)));
    list.push("Flip a coin until you lose a flip or choose to stop flipping. If you lose a flip, do nothing. If you win one or more flips, " + Decapitalize(ChaosResult(chart - 1)) + " If you win two or more flips, " + Decapitalize(ChaosResult(chart)) + " If you win three or more flips, " + Decapitalize(ChaosResult(chart + 1)));
   } else {
    list.push(ChaosResult(chart));
   }
-  document.getElementById("history").innerHTML = "<p>" + totalrolls + " (Chart " + chart + ") " + DrawFrom(list) + "</p>" + document.getElementById("history").innerHTML;
+  document.getElementById("history").innerHTML = "<p>" + /*totalrolls + " (Chart " + chart + ") " +*/ DrawFrom(list) + "</p>" + document.getElementById("history").innerHTML;
   totalrolls++;
  }
  
