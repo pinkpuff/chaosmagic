@@ -6,9 +6,18 @@
  button {
   font-size: 2em;
  }
+
  li {
   margin: 1em 0;
  }
+ 
+ .console {
+  //background-color: black;
+  //color: white;
+  //font-family: courier;
+  border: 1px solid black;
+  padding: 0% 1%;
+ } 
 </style>
 </head>
 
@@ -308,6 +317,8 @@ his or her chaos step, which takes place each turn after the upkeep step
   list.push(Capitalize(PayCost(false, "your", true)) + ": You may immediately play a card from the middle. If you don't, exile a card from the middle. Any player may activate this ability.");
   temp = WeakPermanent(); list.push("All creatures have \"At the beginning of your upkeep, put a spore counter on this creature\" and \"Remove three spore counters from this creature: Create a" + (Dice(4) == 1 ? (StartsWithVowel(temp) ? "n " : " ") + temp : " 1/1 green Saproling token") + ".\"");
   list.push("All nonland permanents are " + (Dice(3) == 1 ? "creatures with power and toughness each equal to their converted mana cost" : (Dice(2) == 1 ? "artifacts" : "enchantments") ) + " in addition to their other types.");
+  list.push("At the beginning of each player's upkeep, that player reveals the top card of his or her library. If it's a " + PermanentType() + " card, the player puts it onto the battlefield.");
+  list.push("Players can't cast spells from their hands.</p><p>If a player would play a land from his or her hand, instead that player exiles a card from his or her hand face down and creates a colorless land token with \"T: Add one mana of any color to your mana pool.\"</p><p>Name a card that hasn't yet been named by any player to activate this ability, then exile a card from your hand with a different name from the named card but the same mana cost, then pay that mana cost: If the named card is a permanent card, create a token copy of it. If the named card is an instant or sorcery card, cast a copy of it. Any player may activate this ability. <i>(For example, if you name Strip Mine, you can exile an Ancestral Vision from your hand, but not an Ornithopter. Mana cost includes color.)</i>");
   document.getElementById("global").innerHTML = "<p>" + DrawFrom(list) + "</p>";
  }
  
@@ -328,7 +339,6 @@ his or her chaos step, which takes place each turn after the upkeep step
    [1, 2, 3, 3, 4, 4, 4, 4, 4],
    [1, 2, 3, 4, 4, 4, 4, 4, 4]
   ];
-  //chart = Math.floor((Math.floor(totalrolls / 4) + Dice(6) - 1) / 5) + 1;
   chart = chartlist[Math.min(Math.floor(totalrolls / 4), 11)][Dice(9) - 1];
   if (Dice(10) == 1) {
    list.push(ChaosResult(chart) + "<br>" + ChaosResult(chart));
@@ -344,7 +354,7 @@ his or her chaos step, which takes place each turn after the upkeep step
   } else {
    list.push(ChaosResult(chart));
   }
-  document.getElementById("history").innerHTML = "<p>" + /*totalrolls + " (Chart " + chart + ") " +*/ DrawFrom(list) + "</p>" + document.getElementById("history").innerHTML;
+  document.getElementById("history").innerHTML = "<div class='console'><p>" + DrawFrom(list) + "</p></div>" + document.getElementById("history").innerHTML;
   totalrolls++;
  }
  
@@ -363,7 +373,7 @@ his or her chaos step, which takes place each turn after the upkeep step
     list.push("An opponent chooses a permanent you control. Tap that permanent. It doesn't untap during your next untap step.");
    }
   }
-  document.getElementById("history").innerHTML = "<p>" + DrawFrom(list) + "</p>" + document.getElementById("history").innerHTML;
+  document.getElementById("history").innerHTML = "<div class='console'><p>" + DrawFrom(list) + "</p></div>" + document.getElementById("history").innerHTML;
  }
  
  function Spite() {
@@ -386,7 +396,7 @@ his or her chaos step, which takes place each turn after the upkeep step
    list.push("Choose a player. That player exiles his or her graveyard and the top " + NumberWord(Dice(6, 2)) + " cards of his or her library.");
    list.push("Choose a player. Each other player doubles his or her life total and may shuffle his or her graveyard into his or her library.");
   }
-  document.getElementById("history").innerHTML = "<p>" + DrawFrom(list) + "</p>" + document.getElementById("history").innerHTML;
+  document.getElementById("history").innerHTML = "<div class='console'><p>" + DrawFrom(list) + "</p></div>" + document.getElementById("history").innerHTML;
  }
  
  function Resolution() {
@@ -402,7 +412,7 @@ his or her chaos step, which takes place each turn after the upkeep step
   list.push("The player with the greatest devotion to " + BasicColor() + " wins.");
   list.push("Each player reveals the top card of his or her library. The player who revealed the card with the highest converted mana cost wins.");
   list.push("The player who took the first turn of the game wins.");
-  document.getElementById("history").innerHTML = "<p>" + DrawFrom(list) + "</p>" + document.getElementById("history").innerHTML;
+  document.getElementById("history").innerHTML = "<div class='console'><p>" + DrawFrom(list) + "</p></div>" + document.getElementById("history").innerHTML;
  }
  
  function SlotMachine() {
@@ -424,7 +434,7 @@ his or her chaos step, which takes place each turn after the upkeep step
    if (reel1 == 6 || reel2 == 6 || reel3 == 6) result += "<li>Change the global.</li></ul>";
    result += "</ul>"
   }
-  document.getElementById("history").innerHTML = "<p>" + result + "</p>" + document.getElementById("history").innerHTML;
+  document.getElementById("history").innerHTML = "<div class='console'><p>" + result + "</p></div>" + document.getElementById("history").innerHTML;
  }
  
  function ChaosResult(chart = 1) {
@@ -478,7 +488,7 @@ his or her chaos step, which takes place each turn after the upkeep step
      list.push("Each player puts the fourth card from the top of his or her library into the middle.");
      list.push("Each player puts the bottom card of his or her library into the middle.");
      list.push("Manifest the top card of your library.");
-     temp = Dice(4); list.push("Look at the top " + NumberWord(Dice(6, 2)) + " cards of your library. Exile a nonland card with converted mana cost " + (temp + 2) + " or less from among them and put " + NumberWord(temp, "a") + " time " + (temp > 1 ? "counters" : "counter") + " on it. It gains suspend. Put the rest on the bottom of your library in a random order.");
+     temp = Dice(4); list.push("Look at the top " + NumberWord(Dice(6, 2)) + " cards of your library. You may exile a nonland card with converted mana cost " + (temp + 2) + " or less from among them and put " + NumberWord(temp, "a") + " time " + (temp > 1 ? "counters" : "counter") + " on it. It gains suspend. Put the rest on the bottom of your library in a random order.");
      list.push("Each player flips coins until he or she wins a flip. Each player loses 1 life for each flip he or she lost.");
      break;
     case 2:
