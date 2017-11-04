@@ -62,6 +62,9 @@ his or her chaos step, which takes place each turn after the upkeep step
    effect.
   </li>
   <li>
+   Any player can activate abilities of the global.
+  </li>
+  <li>
    Triggered abilities of globals don't cause themselves or other abilities
    of the same global to trigger. <i>(For example, if the global ends up being 
    something like "Whenever a player draws a card, that player draws a card," 
@@ -89,73 +92,28 @@ his or her chaos step, which takes place each turn after the upkeep step
    won the vote goes on the stack. Then targets are chosen for that mode.
   </li>
  </ul>
- <h3>The Middle</h3>
+ <h3>Chips</h3>
  <ul>
   <li>
-   There is a new zone called the middle. Cards in the middle are not
-   considered exiled or in the command zone; it is its own separate zone.
+   Each player starts the game with 3 chips. Chips are not permanents; they
+   are a resource that can be used to somewhat steer the chaos in your favor.
   </li>
   <li>
-   As a state-based effect, if at any time there are no cards in the middle,
-   each player shuffles his or her library and puts the top card into the
-   middle.
-  </li>
-  <li>
-   Cards in the middle are face-up at all times.
-  </li>
-  <li>
-   Players can't play cards from the middle except when instructed to do so by
-   a chaos effect. Unless that effect tells you to play the card "immediately",
-   you must still respect the regular timing of the card. <i>(For example, you
-   can only play a sorcery from the middle if it is your main phase and the
-   stack is empty.)</i>
-  </li>
-  <li>
-   To play a card from the middle, if the card in question is a land card, put
-   it onto the battlefield under your control <i>(it doesn't count toward your
-   land per turn limit)</i>. Otherwise, you may pay its costs and cast it.
-  </li>
-  <li>
-   If a player leaves the game, all cards he or she owns from the middle cease
-   to exist along with all other cards that player owns.
-  </li>
- </ul>
- <h3>Slot Machine</h3>
- <ul>
-  <li>
-   Each player starts the game with three chips.
-  </li>
-  <li>
-   Any time a player has priority, if that player has not played the slot machine
-   this turn, he or she may play the slot machine.
-  </li>
-  <li>
-   Each player can play the slot machine on each player's turn; it does not have
-   to be that player's own turn.
-  </li>
-  <li>
-   Playing the slot machine doesn't use the stack. Its effect resolves
-   immediately as it is rolled; players can't do anything in response. However,
-   if the effect, for example, puts a chaos ability <i>(or a copy of one)</i>
-   on the stack, that ability can be responded to as normal.
-  </li>
-  <li>
-   To play the slot machine, spend 1 chip, then roll three six-sided dice. On a
-   triple, you gain 6 chips and may choose any or all of the effects below up
-   to once each <i>(they happen in the order listed)</i>. On a pair, you gain 2
-   chips and choose one of the effects below. On any other result, you don't
-   gain any chips, but you choose one of the effects below from among those
-   corresponding to the numbers shown on the dice. <i>(For example, if you
-   rolled 3, 5, 6, you could choose to either copy a chaos effect, roll chaos, or
-   change the global.)</i>
-   <ol>
-    <li>Exile all tokens created by chaos effects.</li>
-    <li>You may play a card from the middle. If you don't, exile a card from the middle.</li>
-    <li>Copy a chaos effect.</li>
-    <li>Counter a chaos effect. Its controller rolls chaos.</li>
-    <li>Roll chaos.</li>
+   A player can pay 1 chip any time he or she has priority to put one of the
+   following abilities on the stack, chosen at random &mdash;
+   <ul>
     <li>Change the global.</li>
-   </ol>
+    <li>
+     Counter up to one target chaos ability. If that ability is
+     countered this way, its controller rolls chaos.
+    </li>
+   </ul>
+  </li>
+  <li>
+   A player can pay 1 chip any time he or she has priority to play the slot
+   machine. To do this, that player rolls three six sided dice. On a pair, that
+   player gains 2 chips. On a triple, that player gains 6 chips. On any other
+   result, nothing happens.
   </li>
  </ul>
  <h3>Retribution</h3>
@@ -170,7 +128,7 @@ his or her chaos step, which takes place each turn after the upkeep step
    happen to that player.
   </li>
   <li>
-   If one or more players did something in violation of the Global, either by
+   If one or more players did something in violation of the global, either by
    doing something it forbids or neglecting to do something it requires, if the
    mistake is detected before the end of the turn it was made, rewind the game
    state to the relevant point, and the player or players that made the mistake
@@ -179,10 +137,6 @@ his or her chaos step, which takes place each turn after the upkeep step
   <li>
    If a player changed the global without an effect instructing him or her to
    do so, that player rolls retribution.
-  </li>
-  <li>
-   If a given player played the slot machine more than once on the same turn,
-   that player rolls retribution.
   </li>
   <li>
    If a player made a mistake eligible for retribution but it was not detected
@@ -233,6 +187,44 @@ his or her chaos step, which takes place each turn after the upkeep step
  
  var totalrolls = 0;
  
+ document.addEventListener("keydown", function(event) {
+  if (event.defaultPrevented) {
+   return;
+  }
+  switch (event.key) {
+   case " ":
+   case "c":
+    RollChaos();
+    event.preventDefault();
+    break;
+   case "Enter":
+   case "g":
+    NewGlobal();
+    event.preventDefault();
+    break;
+   case "m":
+    SlotMachine();
+    break;
+   case "Backspace":
+   case "r":
+    Retribution();
+    event.preventDefault();
+    break;
+   case "s":
+    Spite();
+    break;
+   case "q":
+    Resolution();
+    break;
+   default:
+    return;
+  }
+ }, true);
+ 
+ document.addEventListener("keyup", function(event) {
+  event.preventDefault();
+ }, true);
+
  function DrawFrom(hat) {
   return hat[Dice(hat.length) - 1];
  }
@@ -240,8 +232,9 @@ his or her chaos step, which takes place each turn after the upkeep step
  function NewGlobal() {
   var list = [];
   var temp;
+  var temp2;
   list.push("<i>The chaos subsides.</i>");
-  list.push("At the end of each combat step, if one or more creatures dealt combat damage to a player that turn, attacking player " + PlayerAction() + ".");
+  list.push("At the beginning of each player's end step, if one or more creatures dealt combat damage to a player that turn, attacking player " + PlayerAction() + ".");
   list.push("At the beginning of each player's draw step, that player draws an additional card.");
   list.push("Whenever a player draws a card, that player " + PlayerAction() + ".");
   list.push("Whenever a player discards a card, that player " + PlayerAction() + ".");
@@ -263,13 +256,12 @@ his or her chaos step, which takes place each turn after the upkeep step
   list.push("At the beginning of each player's upkeep, that player " + PlayerAction() + ".");
   list.push("Players can't search libraries.");
   list.push("Whenever a player would put one or more counters on anything, he or she puts that many plus one on it instead.");
-  temp = PermanentType(); list.push("Whenever a" + (StartsWithVowel(temp) ? "n " : " ") + temp + " enters the battlefield, destroy it.</p><p>0: Change the global. You skip your next turn. Any player may activate this ability.");
+  temp = PermanentType(); list.push("Whenever a" + (StartsWithVowel(temp) ? "n " : " ") + temp + " enters the battlefield, destroy it.</p><p>0: Change the global. You skip your next turn.");
   list.push("All creatures lose all abilities and have base power and toughness 1/1.");
   list.push("Each land is a " + Capitalize(BasicLandType()) + " in addition to its other land types.");
   list.push("Each creature is a " + CreatureType() + " in addition to its other creature types.");
   temp = SpellType(); list.push("Whenever a player casts a" + (StartsWithVowel(temp) ? "n " : " ") + temp + ", counter that spell. That player creates X " + WeakPermanent(true) + ", where X is that spell's converted mana cost.");
   temp = WeakPermanent(); list.push("Whenever a nontoken creature dies, its controller creates a" + (StartsWithVowel(temp) ? "n " : " ") + temp + ".");
-  temp = WeakPermanent(); list.push("At the beginning of each player's upkeep, that player may " + PayCost() + ". If he or she does, he or she creates a" + (StartsWithVowel(temp) ? "n " : " ") + temp + ".");
   list.push("All instant and sorcery spells have " + SpellAbility() + ".");
   list.push("All cards in all players' hands have " + HandAbility() + ".");
   list.push("Players may play cards from their graveyards.</p><p>If a card would be put into a graveyard from anywhere, exile that card instead.");
@@ -279,14 +271,14 @@ his or her chaos step, which takes place each turn after the upkeep step
   list.push("If a player would draw a card, instead that player chooses land or nonland and reveals cards from the top of his or her library until he or she reveals a card of the chosen kind. That player puts that card into his or her hand and all other cards revealed this way on the bottom of his or her library in a random order.");
   list.push("Whenever a creature enters the battlefield, its controller may have it deal damage equal to its power to target creature or player.");
   temp = SpellType(); list.push("Whenever a player casts a" + (StartsWithVowel(temp) ? "n " : " ") + temp + ", its controller " + PlayerAction() + ".");
-  list.push(Capitalize(SpellType(true)) + " can't be cast.</p><p>" + Capitalize(PayCost()) + ": Change the global. Any player may activate this ability.");
+  list.push(Capitalize(SpellType(true)) + " can't be cast.</p><p>" + Capitalize(PayCost(false, "your", true)) + ": Change the global.");
   list.push("At the beginning of each player's end step, if a permanent that player controlled left the battlefield this turn, he or she reveals the top card of his or her library. If it's a permanent card, that player may put it onto the battlefield. Otherwise, he or she may put it on the bottom of his or her library.");
   list.push("At the beginning of each player's upkeep, that player loses life equal to the number of artifacts he or she controls.");
   list.push("Each player can't cast more than one spell each turn.");
   list.push("All " + SpellType(true) + " cost (" + Dice(3) + ") " + (Dice(2) == 1 ? "less" : "more") + " to cast.");
   temp = NumberWord(Dice(3)); list.push("Each " + SpellType() + " that would cost less than " + temp + " mana to cast costs " + temp + " mana to cast.");
   list.push("If a player would gain life, that player gains twice that much life instead.");
-  list.push("If a player would discard a card, that player puts that card on the bottom of his or her library instead.");
+  list.push("If a player would discard a card, that player puts that card on top of his or her library instead.");
   list.push("Whenever a player chooses one or more targets, each player reveals the top card of his or her library. The player who reveals the card with the highest converted mana cost may change the target or targets. If two or more cards are tied for highest cost, the target or targets remain unchanged.");
   list.push("Any player may cast " + SpellType(true) + " with converted mana cost " + Dice(3) + " or less without paying their mana cost and as though they had flash.");
   temp = CardType(); list.push("Each player reveals each card he or she draws.</p><p>Whenever a player draws a" + (StartsWithVowel(temp) ? "n " : " ") + temp + ", that player gains " + Dice(3) + " life. Otherwise, that player loses " + Dice(3) + " life.");
@@ -297,28 +289,74 @@ his or her chaos step, which takes place each turn after the upkeep step
   list.push("All lands are 1/1 creatures that are still lands.");
   list.push("Whenever a player casts an instant spell, counter it unless that player pays (X), where X is its converted mana cost.");
   list.push("Players can't gain life.</p><p>At the beginning of each player's upkeep, that player loses 1 life.");
-  list.push("At the beginning of each player's upkeep, that player puts a card at random from his or her hand into the middle. That player may play a card from the middle this turn. At the beginning of the next end step, if the player hasn't played a card from the middle, he or she exiles a card from the middle.");
   list.push("At the beginning of each upkeep, untap all creatures and lands.");
   list.push("Creatures can't attack a player unless that player cast a spell or put a nontoken permanent onto the battlefield during his or her last turn.");
   list.push("Whenever a creature enters the battlefield, its controller gains life equal to its toughness.");
   list.push("All creatures have vigilance.</p><p>At the beginning of each player's end step, tap all untapped creatures that player controls that didn't attack this turn. That player loses life equal to the number of creatures tapped this way.");
   list.push("Whenever a permanent enters the battlefield tapped, untap it.");
   list.push("All " + PermanentType(true) + " enter the battlefield tapped.");
-  list.push("At the beginning of each player's upkeep, that player may " + PayCost() + ". If that player does, he or she manifests the top card of his or her library.");
   list.push("Players can't draw more than one card per turn.");
   list.push("At the beginning of each player's chaos step, that player rolls chaos an additional time.");
   list.push("If a player would roll chaos during his or her chaos step, instead that player flips a coin. If that player wins the flip, he or she rolls chaos. Otherwise, that player doesn't roll chaos.");
-  list.push(Capitalize(PayCost(false, "your", true)) + ": You may play an additional land this turn. Any player may activate this ability but only on his or her own turn.");
-  list.push("Players skip their draw steps.</p><p>" + Capitalize(PayCost(false, "your", true)) + ": Draw a card. Any player may activate this ability.");
-  list.push("Whenever a player rolls chaos, any player may " + PayCost() + ". Each player who does copies that chaos effect.");
-  list.push("Whenever a player rolls chaos, any player may " + PayCost() + ". If anyone does, counter that chaos effect, then its controller rolls chaos again.");
+  list.push(Capitalize(PayCost(false, "your", true)) + ": You may play an additional land this turn. Activate this ability only on your own turn.");
+  list.push("Players skip their draw steps.</p><p>Pay 1 life: Draw a card.");
+  list.push("Whenever a player rolls chaos, any player may " + PayCost() + ". Each player who does copies that ability.");
+  list.push("Whenever a player rolls chaos, any player may " + PayCost() + ". If anyone does, counter that ability, then its controller rolls chaos again.");
   list.push("If tapped for mana, Plains produce (R), Islands produce (G), Swamps produce (W), Mountains produce (U), and Forests produce (B) instead of any other type.");
-  list.push(Capitalize(PayCost(false, "your", true)) + ": Roll chaos. Any player may activate this ability.");
-  list.push(Capitalize(PayCost(false, "your", true)) + ": You may immediately play a card from the middle. If you don't, exile a card from the middle. Any player may activate this ability.");
+  list.push(Capitalize(PayCost(false, "your", true)) + ": Roll chaos.");
   temp = WeakPermanent(); list.push("All creatures have \"At the beginning of your upkeep, put a spore counter on this creature\" and \"Remove three spore counters from this creature: Create a" + (Dice(4) == 1 ? (StartsWithVowel(temp) ? "n " : " ") + temp : " 1/1 green Saproling token") + ".\"");
   list.push("All nonland permanents are " + (Dice(3) == 1 ? "creatures with power and toughness each equal to their converted mana cost" : (Dice(2) == 1 ? "artifacts" : "enchantments") ) + " in addition to their other types.");
   list.push("At the beginning of each player's upkeep, that player reveals the top card of his or her library. If it's a " + PermanentType() + " card, the player puts it onto the battlefield.");
-  list.push("Players can't cast spells from their hands.</p><p>If a player would play a land from his or her hand, instead that player exiles a card from his or her hand face down and creates a colorless land token with \"T: Add one mana of any color to your mana pool.\"</p><p>Name a card that hasn't yet been named by any player to activate this ability, then exile a card from your hand with a different name from the named card but the same mana cost, then pay that mana cost: If the named card is a permanent card, create a token copy of it. If the named card is an instant or sorcery card, cast a copy of it. Any player may activate this ability. <i>(For example, if you name Strip Mine, you can exile an Ancestral Vision from your hand, but not an Ornithopter. Mana cost includes color.)</i>");
+  list.push("Players can't cast spells from their hands.</p><p>Choose a nonland card name that hasn't been chosen, then exile a nonland card from your hand with a different name but the same mana cost as the card with the chosen name, then pay that mana cost: Cast a copy of the card with the chosen name. <i>(Copies of permanent spells enter the battlefield as permanent tokens. Mana cost includes color. If a card has no mana cost, it can't be paid. You can't name a card that isn't legal in the format you're playing.)</i>");
+  list.push("If there are no nonland cards exiled with this global, each player shuffles his or her library, then exiles cards from the top of it until he or she exiles a nonland card.</p><p>Players can play cards exiled with this global.</p><p>Players can't play more than one card exiled with this global each turn.</p><p>At the beginning of each player's end step, if that player didn't play a card from exile this turn, he or she puts a card exiled with this global into its owner's graveyard.");
+  list.push("All white spells cost (B/2) more to cast.</p><p>All blue spells cost (R/2) more to cast.</p><p>All black spells cost (G/2) more to cast.</p><p>All red spells cost (W/2) more to cast.</p><p>All green spells cost (U/2) more to cast.</p><p>All colorless spells cost (C/2) more to cast.");
+  list.push("Each player skips his or her first untap, upkeep, chaos, and draw step each turn.</p><p>After each player's postcombat main phase each turn, there is an additional draw step, followed by an additional chaos step, followed by an additional upkeep step, followed by an additional untap step.");
+  list.push("At the beginning of each player's upkeep, that player chooses draw step, main phase, or combat phase. That player skips each instance of the chosen step or phase this turn.");
+  list.push("As this becomes the global, each player chooses a nonland card name.</p><p>Players play with the top card of their libraries revealed.</p><p>Whenever a player draws a card, if it has one of the chosen names, that player loses 5 life.");
+  list.push("As this becomes the global, each player chooses a creature type.</p><p>Spells that have at least one of the chosen types cost (1) less to cast.</p><p>Creatures that have at least one of the chosen types get +1/+1.");
+  list.push("At the beginning of each player's upkeep, that player gets an additional upkeep step after this step.");
+  list.push("If a player would draw a card, instead that player may shuffle his or her hand into his or her library, then draw that many cards minus one, then scry 1.");
+  list.push("All players have shroud.");
+  temp = WeakPermanent();
+  temp2 = "Pay 1 chip: Create a" + (StartsWithVowel(temp) ? "n " : " ") + temp + ".</p><p>";
+  temp = StrongPermanent();
+  temp2 = temp2 + "Pay 2 chips: Create a" + (StartsWithVowel(temp) ? "n " : " ") + temp + ".</p><p>";
+  temp = MightyPermanent();
+  temp2 = temp2 + "Pay 3 chips: Create a" + (StartsWithVowel(temp) ? "n " : " ") + temp + ".";
+  list.push(temp2);
+  temp = SpellType();
+  temp2 = (Dice(2) == 1 ? "life" : "chips");
+  list.push("Whenever a player casts a" + (StartsWithVowel(temp) ? "n " : " ") + temp + ", each player may bid " + temp2 + " for control of that spell. Its caster starts the bidding with a bid of 0. In turn order, each player may top the high bid. The bidding ends if the high bid stands. The high bidder pays " + temp2 + " equal to the high bid and gains control of the spell. That player may choose new targets for that spell.");
+  temp = BasicPermanentType();
+  temp2 = (Dice(2) == 1 ? "life" : "chips");
+  list.push("If a nontoken " + temp + " would enter the battlefield, each player may bid " + temp2 + " for control of that permanent. Its owner starts the bidding with a bid of 0. In turn order, each player may top the high bid. The bidding ends if the high bid stands. The high bidder pays " + temp2 + " equal to the high bid and the permanent enters the battlefield under that player's control.");
+  list.push("As this becomes the global, each player chooses a number. Then, choose one of those numbers at random.</p><p>Players can't cast spells with converted mana cost equal to the chosen number.</p><p>Creatures with converted mana cost equal to the chosen number can't attack or block.");
+  list.push("Players skip their draw steps.</p><p>At the beginning of each player's precombat main phase, that player looks at the top three cards of his or her library and puts one into his or her hand, one into his or her graveyard, and one on top of his or her library.");
+  list.push("At the beginning of each player's upkeep, that player chooses one &mdash;<ul><li>Exile the top card of your library face down. You can look at that card as long as it remains exiled.</li><li>Exchange the cards in your hand with the cards you own exiled with this global.</li></ul>");
+  list.push("At the beginning of each player's upkeep, that player chooses one that hasn't been chosen &mdash;<ul><li>" + ChaosResult(1) + "</li><li>" + ChaosResult(2) + "</li><li>" + ChaosResult(2) + "</li><li>" + ChaosResult(3) + "</li><li>Change the global. You lose 5 life.</li></ul>");
+  list.push("Creatures can't block and can't attack players who control one or more untapped creatures.</p><p>All creatures have wither and \"T: Choose a creature controlled by an opponent. This creature fights the chosen creature. Activate this ability only during your declare attackers step.\"");
+  list.push("Blocking causes creatures without vigilance to tap.</p><p>Creatures can't block unless they have haste or have been controlled continuously by the same player since the beginning of that player's most recent turn.");
+  list.push("Triggered abilities don't trigger.");
+  list.push("Activated abilities can't be activated unless they're mana abilities.");
+  list.push("All " + BasicPermanentType(true) + " have \"At the beginning of your upkeep, destroy this permanent unless you " + PaySmallCost(false, "your", false) + ".\"</p><p>" + Capitalize(PayLargeCost(false, "your", true)) + ": Change the global.");
+  list.push("This global has its own mana pool. Mana doesn't empty from this global's mana pool as steps and phases end.</p><p>As this becomes the global, repeat the following process a number of times equal to the number of players plus two. Add one mana of a random type to this global's mana pool. <i>(The mana types are (W), (U), (B), (R), (G), and (C).)</i></p><p>Once each turn on their own turn, players may spend up to one mana from this global's mana pool. If a player spends mana this way, add one mana of a random type to this global's mana pool.</p><p>Mana in this global's mana pool can't be spent to pay for generic mana costs. <i>(For example, (C) can be spent to pay for (C) but not to pay for (1) or (X).)</i></p><p>At the beginning of each end step, if this global's mana pool contains only colorless mana, change the global.");
+  list.push("Whenever a player rolls chaos, that player copies that ability a number of times equal to the number of previous times a player has rolled chaos since this became the global.");
+  list.push("Players skip their chaos steps.</p><p>(X): Roll a six-sided die. On a 1, roll chaos. On a 6, change the global. On any other result, do nothing. X is the number of times you have previously activated this ability this turn. Activate this ability only any time you could cast a sorcery.");
+  list.push("Players can't play lands.</p><p>Exile a card from your hand: Choose a basic land type. Create a colorless land token with the chosen type. Activate this ability only any time you could cast a sorcery and only once each turn.");
+  list.push("At the beginning of each player's upkeep, that player may " + PayCost() + ". If the player does, he or she " + GoodAction() + ".");
+  list.push(Capitalize(PayLargeCost(false, "your", true)) + ": Gain 3 chips. Change the global.");
+  list.push("Whenever a player activates an ability of a permanent, that player may " + PayCost() + ". If the player does, he or she copies that ability.");
+  list.push("If a triggered ability of a permanent triggers, that ability triggers an additional time.");
+  list.push("Players play with the top card of their libraries revealed.</p><p>Players may play the top card of their libraries.");
+  list.push("Each player can play an additional land on each of his or her turns.</p><p>Players play with the top card of their libraries revealed.</p><p>Players may play the top card of their libraries if it's a land card.");
+  list.push("Players can't untap more than one land during their untap steps.");
+  list.push("As this becomes the global, each player chooses a permanent. Exile those permanents until the global changes.");
+  list.push("If a source would deal damage to a permanent or player, it deals double that damage to that permanent or player instead.");
+  list.push("If a source would deal damage to a permanent or player, it deals half that damage, rounded down, to that permanent or player instead.");
+  list.push("Each player who cast a spell this turn can't attack with creatures.</p><p>Each player who attacked with a creature this turn can't cast spells.");
+  list.push("Whenever a creature dies, its controller draws a card and loses 1 life.");
+  list.push("At the beginning of each player's upkeep, if one of that player's opponents controls three or more creatures, that player searches his or her for up to two creature cards and puts those cards onto the battlefield. Then that player shuffles his or her library. Then change the global.");
+  list.push("At the beginning of each player's upkeep, that player chooses a color. Until end of turn, lands tapped for mana produce mana of the chosen color instead of any other color.");
   document.getElementById("global").innerHTML = "<p>" + DrawFrom(list) + "</p>";
  }
  
@@ -327,7 +365,7 @@ his or her chaos step, which takes place each turn after the upkeep step
   var chart = 0;
   var chartlist = [
    [1, 1, 1, 1, 1, 1, 1, 1, 2],
-   [1, 1, 1, 1, 1, 1, 1, 2, 3],
+   [1, 1, 1, 1, 1, 1, 1, 2, 2],
    [1, 1, 1, 1, 1, 1, 2, 2, 3],
    [1, 1, 1, 1, 1, 2, 2, 3, 3],
    [1, 1, 1, 1, 2, 2, 3, 3, 4],
@@ -346,11 +384,11 @@ his or her chaos step, which takes place each turn after the upkeep step
    list.push("Choose one&mdash;<ul><li>" + ChaosResult(chart) + "</li><li>" + ChaosResult(chart) + "</li></ul>");
    list.push("Choose one&mdash;<ul><li>" + ChaosResult(chart) + "</li><li>" + ChaosResult(chart) + "</li><li>" + ChaosResult(chart) + "</li></ul>");
    list.push("Choose two&mdash;<ul><li>" + ChaosResult(chart - 1) + "</li><li>" + ChaosResult(chart - 1) + "</li><li>" + ChaosResult(chart - 1) + "</li><li>" + ChaosResult(chart - 1) + "</li></ul>");
-   list.push("Starting with you, each player votes A or B. If A getes more votes, " + Decapitalize(ChaosResult(chart)) + " If B gets more votes or the vote is tied, " + Decapitalize(ChaosResult(chart)));
+   list.push("Starting with you, each player votes A or B.<br>If A getes more votes, " + Decapitalize(ChaosResult(chart)) + "<br>If B gets more votes or the vote is tied, " + Decapitalize(ChaosResult(chart)));
    list.push(ChaosResult(chart) + "<br>Then, you may " + PayCost(false, "your") + ". If you do, " + Decapitalize(ChaosResult(chart)));
    list.push("Any player may " + PayCost(false) + ". If no one does, " + Decapitalize(ChaosResult(chart + 2)));
    list.push("You may " + PayCost(false, "your") + ". If you do, " + Decapitalize(ChaosResult(chart + 1)));
-   list.push("Flip a coin until you lose a flip or choose to stop flipping. If you lose a flip, do nothing. If you win one or more flips, " + Decapitalize(ChaosResult(chart - 1)) + " If you win two or more flips, " + Decapitalize(ChaosResult(chart)) + " If you win three or more flips, " + Decapitalize(ChaosResult(chart + 1)));
+   list.push("Flip a coin until you lose a flip or choose to stop flipping. If you lose a flip, do nothing.<br>If you win one or more flips, " + Decapitalize(ChaosResult(chart - 1)) + "<br>If you win two or more flips, " + Decapitalize(ChaosResult(chart)) + "<br>If you win three or more flips, " + Decapitalize(ChaosResult(chart + 1)));
   } else {
    list.push(ChaosResult(chart));
   }
@@ -421,18 +459,11 @@ his or her chaos step, which takes place each turn after the upkeep step
   var reel3 = Dice(6);
   var result;
   if (reel1 == reel2 == reel3) {
-   result = "<i>TRIPLE!!</i><br>Gain 6 chips. Choose any or all&mdash;<ul><li>Exile all tokens created by chaos effects.</li><li>You may play a card from the middle. If you don't, exile a card from the middle.</li><li>Copy a chaos effect.</li><li>Counter a chaos effect. Its controller rolls chaos.</li><li>Roll chaos.</li><li>Change the global.</li></ul>";
+   result = "<i>TRIPLE!!</i><br>Gain 6 chips.";
   } else if (reel1 == reel2 || reel2 == reel3 || reel1 == reel3) {
-   result = "<i>Pair!</i><br>Gain 2 chips. Choose one&mdash;<ul><li>Exile all tokens created by chaos effects.</li><li>You may play a card from the middle. If you don't, exile a card from the middle.</li><li>Copy a chaos effect.</li><li>Counter a chaos effect. Its controller rolls chaos.</li><li>Roll chaos.</li><li>Change the global.</li></ul>";
+   result = "<i>Pair!</i><br>Gain 2 chips.";
   } else {
-   result = "<i>No luck.</i><br>Choose one&mdash;<ul>";
-   if (reel1 == 1 || reel2 == 1 || reel3 == 1) result += "<li>Exile all tokens created by chaos effects.</li>";
-   if (reel1 == 2 || reel2 == 2 || reel3 == 2) result += "<li>You may immediately play a card from the middle. If you don't, exile a card from the middle.</li>";
-   if (reel1 == 3 || reel2 == 3 || reel3 == 3) result += "<li>Copy a chaos effect.</li>";
-   if (reel1 == 4 || reel2 == 4 || reel3 == 4) result += "<li>Counter a chaos effect. Its controller rolls chaos.</li>";
-   if (reel1 == 5 || reel2 == 5 || reel3 == 5) result += "<li>Roll chaos.</li>";
-   if (reel1 == 6 || reel2 == 6 || reel3 == 6) result += "<li>Change the global.</li></ul>";
-   result += "</ul>"
+   result = "<i>No luck.</i>";
   }
   document.getElementById("history").innerHTML = "<div class='console'><p>" + result + "</p></div>" + document.getElementById("history").innerHTML;
  }
@@ -440,11 +471,12 @@ his or her chaos step, which takes place each turn after the upkeep step
  function ChaosResult(chart = 1) {
   var list = [];
   var temp;
+  var temp2;
   var s;
+  chart = Math.max(chart, 1);
   roll = Dice(12)
-  if (Dice(6) == 1) {
+  if (Dice(12) == 1) {
    list.push("Change the global.");
-   list.push("You may play a card from the middle this turn. At the beginning of the next end step, if you didn't play a card from the middle this turn, exile a card from the middle.");
   } else {
    switch (chart) {
     case 0:
@@ -485,11 +517,15 @@ his or her chaos step, which takes place each turn after the upkeep step
      temp = Dice(3); list.push((Dice(2) == 1 ? "Target" : "Each" ) + " player puts the top " + (temp > 1 ? NumberWord(temp) + " cards" : "card") + " of his or her library into his or her graveyard.");
      temp = Dice(3); list.push("Target player draws two cards, then discards " + NumberWord(temp, "a") + " card" + (temp > 1 ? "s" : "") + ".");
      temp = Dice(3); list.push("Each player gets " + NumberWord(temp, "an") + " energy counter" + (temp > 1 ? "s" : "") + ".");
-     list.push("Each player puts the fourth card from the top of his or her library into the middle.");
-     list.push("Each player puts the bottom card of his or her library into the middle.");
      list.push("Manifest the top card of your library.");
      temp = Dice(4); list.push("Look at the top " + NumberWord(Dice(6, 2)) + " cards of your library. You may exile a nonland card with converted mana cost " + (temp + 2) + " or less from among them and put " + NumberWord(temp, "a") + " time " + (temp > 1 ? "counters" : "counter") + " on it. It gains suspend. Put the rest on the bottom of your library in a random order.");
      list.push("Each player flips coins until he or she wins a flip. Each player loses 1 life for each flip he or she lost.");
+     list.push("Each player simultaneously looks at the hand of the player to his or her left and exiles a card from it face down. Then, reveal all the cards exiled this way. <i>(They're still exiled.)</i>");
+     list.push("Draw a card, then put a card from your hand on top of your library, then scry 2, then put the top card of your library into your graveyard.");
+     list.push("Each player draws a card. Then, each player exiles a card from his or her hand face down. That player can look at and cast the card exiled by the player to his or her " + (Dice(2) == 1 ? "left" : "right") + " as long as it remains exiled.");
+     list.push("You may " + GoodAction(false, "your") + ". If you do, an opponent copies this ability.");
+     list.push("Draw a card, then exile a card from your hand face down. You may look at that card as long as it remains exiled. An opponent asks you a yes-or-no question about that card that can be answered by its oracle entry, which you must answer correctly. <i>(For example, a player could ask \"Does it have an even converted mana cost,\" or \"Was it printed in Legions,\" but not \"Have you played it this game,\" or \"Does it cost more than 10 dollars\".)</i> Opponents continue in turn order with questions in this manner until a total of seven such questions have been asked. Then each opponent chooses a card name. Reveal the exiled card. If its name is any of the chosen names, or if you answered any of the questions incorrectly, each opponent may " + GoodAction(false) + ". Otherwise, return the exiled card to your hand and you may " + GoodAction(false, "your") + ".");
+     list.push("Target player loses 3 life unless he or she sacrifices a nonland permanent or discards a card.");
      break;
     case 2:
      list.push("Destroy all enchantments.");
@@ -541,7 +577,7 @@ his or her chaos step, which takes place each turn after the upkeep step
      temp = Dice(3); list.push("Tap or untap up to " + NumberWord(temp) + " target permanent" + (temp == 1 ? "." : "s."));
      list.push("After your first postcombat main phase this turn, there is an additional combat phase followed by an additional main phase. At the beginning of that combat, untap all creatures that attacked this turn.");
      temp = StrongPermanent(); list.push("Create a" + (StartsWithVowel(temp) ? "n " : " ") + temp + ".");
-     temp = Dice(3); list.push("Create " + NumberWord(temp) + " " + WeakPermanent(temp > 1) + ".");
+     temp = Dice(3); temp2 = WeakPermanent(temp > 1); list.push("Create " + NumberWord(temp, (StartsWithVowel(temp2) ? "an" : "a")) + " " + temp2 + ".");
      list.push("Each opponent creates a " + WeakPermanent() + ".");
      list.push("All " + PermanentType(true) + " phase out.");
      list.push("The owner of target permanent shuffles it into his or her library, then reveals the top card of his or her library. If it's a permanent card, he or she puts it onto the battlefield.");
@@ -552,9 +588,6 @@ his or her chaos step, which takes place each turn after the upkeep step
      list.push("Exchange control of two target " + PermanentType(true) + ".");
      temp = Dice(6); list.push("Target player draws three cards, then discards " + NumberWord(temp, "a") + " card" + (temp > 1 ? "s" : "") + ".");
      temp = Dice(3); list.push("Each player gets " + NumberWord(temp, "an") + " experience counter" + (temp > 1 ? "s" : "") + ".");
-     list.push("Each player puts a random card from his or her graveyard into the middle.");
-     list.push("Each player puts a face-up exiled card he or she owns into the middle.");
-     list.push("Each player puts a nontoken permanent he or she owns into the middle.");
      list.push("Each player gets 1 chip.");
      list.push("Manifest a card from your hand.");
      list.push("Search your library for a card, then shuffle your library and put that card on top of it. You lose 2 life.");
@@ -568,6 +601,13 @@ his or her chaos step, which takes place each turn after the upkeep step
      list.push("Target player exiles all the cards in his or her graveyard face down, then puts those cards on top of his or her library in a random order.");
      list.push("Each player gains 1 life for each " + PermanentType() + " he or she controls.");
      list.push("Target player loses life equal to the number of cards in his or her hand.");
+     list.push("Search your library for two cards with different names and reveal them. An opponent exiles one of those cards. Put the other one into your hand. Then shuffle your library.");
+     list.push("Choose two different creatures controlled by the same opponent. That opponent exiles one of them.");
+     list.push("Target creature you control fights each creature each opponent controls in any order.");
+     temp = BasicPermanentType(); list.push("Each player chooses a" + (StartsWithVowel(temp) ? "n " : " ") + temp + " he or she controls. Then, each player simultaneously gains control of the permanent the player to his or her " + (Dice(2) == 1 ? "left" : "right") + " chose.");
+     list.push("Each player's life total simultaneously becomes the life total of the player to his or her " + (Dice(2) == 1 ? "left" : "right") + ".");
+     list.push("Draw three cards. At the beginning of the next end step, discard your hand.");
+     list.push("Exile all planeswalkers. For each planeswalker exiled this way, its controller creates a colorless Spirit creature token with plainswalk that has power and toughness each equal to the number of loyalty counters on that planeswalker.");
      break;
     case 3:
      list.push("Destroy all artifacts and enchantments.");
@@ -626,9 +666,7 @@ his or her chaos step, which takes place each turn after the upkeep step
      list.push((Dice(2) == 1 ? "Target" : "Each") + " player puts the top " + NumberWord(Dice(6, 2)) + " cards of his or her library into his or her graveyard.");
      list.push("Untap target creature and gain control of it until end of turn. It gains haste until end of turn.");
      list.push("Target player discards his or her hand, then draws " + NumberWord(Dice(3, 2)) + " cards.");
-     list.push("Each player loses all counters and gains 1 life for each counter lost this way.");
-     list.push("Each player puts a nontoken nonland permanent he or she owns into the middle.");
-     list.push("Each player puts a card from his or her hand into the middle.");
+     list.push("Each player loses all counters and gains 1 life for each counter lost this way. <i>(Counters on permanents aren't affected.)</i>");
      temp = Dice(3); list.push("Each player gets " + temp + " chip" + (temp > 1 ? "s." : "."));
      list.push("Transform all creatures.");
      list.push("Turn all face-down creatures face-up.");
@@ -641,6 +679,10 @@ his or her chaos step, which takes place each turn after the upkeep step
      list.push("Each player flips coins until he or she wins a flip. Each player " + BadAction() + " for each flip he or she lost.");
      list.push("Draw a card for each " + PermanentType() + " you control.");
      list.push("Look at target opponent's hand. You may choose an instant or sorcery card from it. If you do, that player discards that card and you may cast a copy of it without paying its mana cost.");
+     list.push("Each player exiles his or her hand face down. That player may look at and cast the cards exiled by the player to his or her " + (Dice(2) == 1 ? "left" : "right") + " as long as they remain exiled.");
+     list.push("Each player loses all counters, then gets a number of counters of each type equal to the number of counters of that type the player to his or her " + (Dice(2) == 1 ? "left" : "right") + " lost this way. <i>(Counters on permanents aren't affected.)</i>");
+     temp = (Dice(2) == 1 ? "life" : "chips"); list.push("Shuffle your library, then exile cards from the top of it until you exile a nonland card. Each player may bid " + temp + " for that card. You start the bidding with a bid of 0. In turn order, each player may top the high bid. The bidding ends if the high bid stands. The high bidder loses " + temp + " equal to the high bid and casts that card without paying its mana cost.");
+     list.push("Repeat the following process " + NumberWord(Dice(3, 2)) + " times. Each opponent loses 3 life unless that player sacrifices a nonland permanent or discards a card.");
      break;
     default:
      list.push("Destroy all lands.");
@@ -697,10 +739,10 @@ his or her chaos step, which takes place each turn after the upkeep step
      list.push("Each player loses all emblems.");
      list.push("Untap target creature and gain control of it. It gains haste until end of turn. At the beginning of the next end step, sacrifice it. If you do, you gain life equal to its toughness.");
      list.push("Search your library and graveyard for five cards and exile the rest. Put the chosen cards on top of your library in any order.");
-     list.push("Exile all cards from the middle.");
-     list.push("Until end of turn, you may play cards from the middle.");
      list.push("You choose how creatures attack and block this turn.");
      list.push("Each player loses 1 life for each " + PermanentType() + " he or she controls.");
+     list.push("Each player simultaneously gains control of all " + BasicPermanentType(true) + " the player to his or her " + (Dice(2) == 1 ? "left" : "right") + " controls.");
+     list.push("Starting with you, each player separates all permanents he or she controls into three piles. Then each player chooses one of his or her piles at random and sacrifices those permanents. <i>(Piles can be empty.)</i>");
      break;
    }
   }
@@ -1052,10 +1094,15 @@ his or her chaos step, which takes place each turn after the upkeep step
   return DrawFrom(list);
  }
  
- function GoodAction() {
+ function GoodAction(does = true, pronoun = "his or her") {
   var list = [];
-  list.push("gains " + Dice(3) + " life");
-  list.push("draws a card");
+  var temp;
+  list.push("gain" + (does ? "s " : " ") + Dice(3) + " life");
+  list.push("draw" + (does ? "s " : " ") + "a card");
+  list.push("gain" + (does ? "s " : " ") + "1 chip");
+  temp = WeakPermanent();
+  list.push("create" + (does ? "s " : " ") + "a" + (StartsWithVowel(temp) ? "n " : " ") + temp);
+  list.push("manifest" + (does ? "s " : " ") + "the top card of " + pronoun + " library");
   return DrawFrom(list);
  }
  
@@ -1067,7 +1114,6 @@ his or her chaos step, which takes place each turn after the upkeep step
   temp = PermanentType(); list.push("sacrifices a" + (StartsWithVowel(temp) ? "n " : " ") + temp);
   list.push("puts the top " + NumberWord(Dice(3) + 1) + " cards of his or her library into his or her graveyard");
   temp = PermanentType(); list.push("returns " + (StartsWithVowel(temp) ? "an " : "a ") + temp + " he or she controls to his or her hand");
-  temp = Zone(); list.push("puts a card he or she owns from " + Zone() + " into the middle");
   return DrawFrom(list);
  }
 
@@ -1089,7 +1135,7 @@ his or her chaos step, which takes place each turn after the upkeep step
   list.push("exile" + (does ? "s " : " ") + "the top " + NumberWord(Dice(3, 2)) + " cards of " + pronoun + " library");
   list.push("put" + (does ? "s " : " ") + "the top " + NumberWord(Dice(3, 2)) + " cards of " + pronoun + " library into " + pronoun + " graveyard");
   temp = PermanentType(); list.push("sacrifice" + (does ? "s " : " ") + "a" + (StartsWithVowel(temp) ? "n " : " ") + temp);
-  list.push("spend 1 chip");
+  list.push("pay" + (does ? "s " : " ") + "1 chip");
   return DrawFrom(list);
  }
 
@@ -1101,6 +1147,17 @@ his or her chaos step, which takes place each turn after the upkeep step
   list.push("exile" + (does ? "s " : " ") + "a card from " + pronoun + " hand");
   list.push("exile" + (does ? "s " : " ") + "the top card of " + pronoun + " library");
   list.push("put" + (does ? "s " : " ") + "the top card of " + pronoun + " library into " + pronoun + " graveyard.");
+  return DrawFrom(list);
+ }
+
+ function PayLargeCost(does = false, pronoun = "his or her", activation = false) { 
+  var list = [];
+  list.push("pay" + (does ? "s " : " ") + "half " + pronoun + " life, rounded up");
+  list.push("discard" + (does ? "s " : " ") + pronoun + " hand");
+  list.push("exile" + (does ? "s " : " ") + pronoun + " hand");
+  list.push("exile" + (does ? "s " : " ") + "the top half of " + pronoun + " library, rounded up");
+  list.push("put" + (does ? "s " : " ") + "the top half of " + pronoun + " library into " + pronoun + " graveyard, rounded up");
+  list.push("skip" + (does ? "s " : " ") + pronoun + " next turn");
   return DrawFrom(list);
  }
 
