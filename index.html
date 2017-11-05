@@ -11,6 +11,11 @@
   margin: 1em 0;
  }
  
+ img {
+  width: 10%;
+  height: auto;
+ }
+ 
  .console {
   //background-color: black;
   //color: white;
@@ -140,7 +145,7 @@ his or her chaos step, which takes place each turn after the upkeep step
   </li>
   <li>
    If a player made a mistake eligible for retribution but it was not detected
-   until the next turn or later, that player rolls retribution twice, but do
+   until the next turn or later, that player rolls retribution, but do
    not rewind the game state.
   </li>
   <li>
@@ -357,6 +362,7 @@ his or her chaos step, which takes place each turn after the upkeep step
   list.push("Whenever a creature dies, its controller draws a card and loses 1 life.");
   list.push("At the beginning of each player's upkeep, if one of that player's opponents controls three or more creatures, that player searches his or her for up to two creature cards and puts those cards onto the battlefield. Then that player shuffles his or her library. Then change the global.");
   list.push("At the beginning of each player's upkeep, that player chooses a color. Until end of turn, lands tapped for mana produce mana of the chosen color instead of any other color.");
+  list.push("If a player would change the global, instead a random player gains life equal to the amount of life lost by all players since this became the global. Then change the global.");
   document.getElementById("global").innerHTML = "<p>" + DrawFrom(list) + "</p>";
  }
  
@@ -454,16 +460,18 @@ his or her chaos step, which takes place each turn after the upkeep step
  }
  
  function SlotMachine() {
-  var reel1 = Dice(6);
-  var reel2 = Dice(6);
-  var reel3 = Dice(6);
+  var reel = ["W", "U", "B", "R", "G", "C"];
+  var reel1 = DrawFrom(reel);
+  var reel2 = DrawFrom(reel);
+  var reel3 = DrawFrom(reel);
   var result;
-  if (reel1 == reel2 == reel3) {
-   result = "<i>TRIPLE!!</i><br>Gain 6 chips.";
-  } else if (reel1 == reel2 || reel2 == reel3 || reel1 == reel3) {
-   result = "<i>Pair!</i><br>Gain 2 chips.";
+  result = "<img src=" + reel1 + ".png><img src=" + reel2 + ".png><img src=" + reel3 + ".png><br>";
+  if (reel1 === reel2 && reel2 === reel3) {
+   result += "<i>TRIPLE!!</i><br>Gain 6 chips.";
+  } else if (reel1 === reel2 || reel2 === reel3 || reel1 === reel3) {
+   result += "<i>Pair!</i><br>Gain 2 chips.";
   } else {
-   result = "<i>No luck.</i>";
+   result += "<i>No luck.</i>";
   }
   document.getElementById("history").innerHTML = "<div class='console'><p>" + result + "</p></div>" + document.getElementById("history").innerHTML;
  }
